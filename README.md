@@ -21,7 +21,11 @@ vercel.json            serves /vsl → vsl.html, caching + noindex headers
 1. Copy everything in this folder into the repo root (asset files are identical to the existing ones).
 2. Commit and push to `main`. Live at `https://sparqlabs.vercel.app/vsl`.
 
-Standalone instead: Vercel → Add New Project → Framework preset **Other**, no build command. Or `npx vercel ## Page structure (design brief v1, 16 Nov 2026)
+Standalone instead: Vercel → Add New Project → Framework preset **Other**, no build command. Or `npx vercel ## Caching
+CSS/JS under /assets/vsl are cached by browsers for 7 days. After editing vsl.css, vsl.js or config.js,
+bump the ?v= number on their links in vsl.html, booked.html and not-a-fit.html.
+
+## Page structure (design brief v1, 16 Nov 2026)
 S1 nav · S2 hero + VSL · S3 results (only proof section) · S4 pain · S5 how it works · S6 offer + pricing ·
 S7 fit / not a fit · S8 team · S9 FAQ · S10 book + footer (`#book`, the only calendar).
 Every button says **Book your pilot call** and scrolls to `#book`. On mobile (<900px) there is no Cal.com
