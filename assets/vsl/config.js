@@ -61,32 +61,9 @@ window.SPARQ_VSL = {
     ['New leader', 'Edtech company', 'new VP Marketing, 3 weeks in']
   ],
 
-  // 3 featured cards: agencies first (closest match to the buyer). Source: SparqLabs 2026 case studies.
-  // Past results stay in the currency they happened in.
-  cases: [
-    { client: 'MZ Media', sector: 'SaaS product video agency', metric: '41+', unit: 'SQLs in one month', featured: true,
-      problem: 'Pipeline leaned on referrals and repeat clients. Needed funded SaaS founders, not one-off edits.',
-      result: '35K+ emails in August across email, LinkedIn, Loom and AI voice. An n8n reply bot routed interest into GoHighLevel; $50M+ raised by funded accounts in the pipeline.' },
-    { client: 'OkayDone', sector: 'Marketing agency · Bengaluru', metric: '6.42%', unit: 'reply rate',
-      problem: 'Lead flow depended on referrals. A previous agency had set the bar at 45 meetings a quarter.',
-      result: '1,411 replies and 169 positive from 21,991 emails. 35+ high-value meetings in 45 days, and 90% of show-ups matched the ICP.' },
-    { client: 'WiseMango', sector: 'Founder branding agency · India', metric: '40+', unit: 'meetings in 14 days',
-      problem: 'Needed to reach founders and C-suite leaders and book calls for LinkedIn branding.',
-      result: 'A free resource as the opener, not a pitch: 61.5% of replies positive, 1–3 new meetings a day and 500+ newsletter sign-ups.' }
-  ],
-
-  // Grid under the featured cards. Headline result per programme, as summarised in the case-study deck.
-  moreCases: [
-    { client: 'RouteElite', sector: 'Logistics services · US', metric: '$38,440', unit: 'new revenue', note: '350+ recurring subscriptions in 5 months; response rate 0.5% → 5%+ in 60 days.' },
-    { client: 'HappyFolks', sector: 'HR tech SaaS · India', metric: '6.7%', unit: 'reply rate', note: '25 opportunities from 549 contacts after 8 test campaigns. Acquired by Kula, Oct 2024.' },
-    { client: 'FilterKing', sector: 'Industrial · HVAC filtration', metric: '76', unit: 'opportunities', note: 'One campaign. Kept the copy, rebuilt the list.' },
-    { client: 'LetsUnbound', sector: 'EdTech · India & UAE', metric: '18', unit: 'school meetings', note: 'Booked in two weeks.' },
-    { client: 'Sufix Tech', sector: 'VA staffing · US', metric: '6.0%', unit: 'reply rate', note: 'Up from 0.84% on the first test.' },
-    { client: 'Think Macro', sector: 'Technology services', metric: '5.3%', unit: 'reply rate', note: 'Across three verticals.' },
-    { client: 'Zaap.ai', sector: 'Creator-economy SaaS', metric: '300+', unit: 'sign-ups', note: 'Plus 600K+ impressions.' },
-    { client: 'Sales Vantage', sector: 'Sales recruitment', metric: '~30', unit: 'positive replies', note: 'In month one.' },
-    { client: 'Bazooka', sector: 'LinkedIn · vendor-published case', metric: '$25K+', unit: 'LTV closed', note: 'Within 3 weeks: 26% reply rate, 15% booking rate.' }
-  ],
+  // Case-study cards removed on request: Results shows the client marquee and quotes only.
+  cases: [],
+  moreCases: [],
 
   // Real client quotes, as published in the SparqLabs 2026 case studies.
   // Shape: { photo, quote, name, role, company, linkedin, video (optional URL) }
