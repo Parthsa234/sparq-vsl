@@ -1,8 +1,9 @@
-/* Sparq Labs · /vsl — page behaviour. Config lives in window.SPARQ_VSL (bottom of vsl.html). */
+/* Sparq Labs · /vsl, /booked, /not-a-fit — page behaviour. Config lives in window.SPARQ_VSL (assets/vsl/config.js). */
 (function (w, d) {
   'use strict';
   var C = w.SPARQ_VSL || {};
   var T = C.tracking || {};
+  var PAGE = w.SPARQ_PAGE || '/vsl';
   var debug = /[?&]debug=1\b/.test(w.location.search);
   var reduce = w.matchMedia && w.matchMedia('(prefers-reduced-motion: reduce)').matches;
   d.documentElement.classList.add('js');
@@ -31,7 +32,7 @@
     if (!opts.repeat && (fired[key] || (opts.persist && store(key)))) return false;
     fired[key] = 1; if (opts.persist) store(key, '1');
     var id = 'sq-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
-    var p = Object.assign({ page: '/vsl' }, attribution(), params || {});
+    var p = Object.assign({ page: PAGE }, attribution(), params || {});
     w.dataLayer.push(Object.assign({ event: 'sparq_vsl_' + name.toLowerCase(), event_id: id }, p));
     // Direct Pixel conversions only when the Pixel was loaded here. If it lives in GTM, map these dataLayer events there.
     if (T.metaPixelId && w.fbq) {
@@ -61,6 +62,15 @@
     return '<span class="lg">' + (o.src ? '<img src="' + esc(o.src) + '" alt="' + esc(o.name) + '" loading="lazy">' : esc(o.name)) + '</span>';
   }).join('');
   fill('#logos', logoHtml + logoHtml.replace(/<span class="lg">/g, '<span class="lg" aria-hidden="true">'));
+
+  var TOOL_NAMES = { 'ocean-io': 'Ocean.io', 'rb2b': 'RB2B', 'n8n': 'n8n', 'chatgpt': 'ChatGPT', 'hubspot': 'HubSpot', 'heyreach': 'HeyReach', 'emailbison': 'EmailBison', 'leadmagic': 'LeadMagic', 'bettercontact': 'BetterContact', 'builtwith': 'BuiltWith', 'linkedin': 'LinkedIn', 'gohighlevel': 'GoHighLevel', 'findymail': 'Findymail' };
+  function toolName(t) { return TOOL_NAMES[t] || t.charAt(0).toUpperCase() + t.slice(1); }
+  function toolRow(list) {
+    var h = list.map(function (t) { return '<span class="tl"><img src="/assets/tools/' + esc(t) + '.png" alt="" width="32" height="32" loading="lazy" decoding="async">' + esc(toolName(t)) + '</span>'; }).join('');
+    return h + h.replace(/<span class="tl">/g, '<span class="tl" aria-hidden="true">');
+  }
+  var tools = C.tools || [], half = Math.ceil(tools.length / 2);
+  if (tools.length) { fill('#tools-a', toolRow(tools.slice(0, half))); fill('#tools-b', toolRow(tools.slice(half))); }
 
   fill('#cases', (C.cases || []).slice(0, 3).map(function (c, i) {
     return '<article class="case rv' + (i ? ' d' + i : '') + (c.featured ? ' feat' : '') + '"><div class="top"><b>' + esc(c.client) + '</b><span>' + esc(c.sector) + '</span></div>' +
@@ -243,4 +253,7 @@
   }
 
   track('PageView');
+  // Cal.com redirects here after a booking (set the redirect in the Cal.com event settings).
+  // Covers mobile visitors who book on the Cal.com page instead of the embed. Once per session.
+  if (PAGE === '/booked') track('Schedule', { source: 'confirmation_page' }, { persist: true });
 })(window, document);

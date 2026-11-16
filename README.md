@@ -4,9 +4,11 @@ Static HTML + one CSS + one JS. No build step, no libraries.
 
 ## Files
 ```
-vsl.html               the page. ALL editable content is in the SPARQ_VSL block at the bottom:
-                       videoUrl, bookingLink, tracking IDs, pricing, people (Nish + Dai),
-                       client logos, 3 case studies, testimonials, 1 dashboard screenshot, FAQ
+vsl.html               the landing page (static copy)
+booked.html            /booked: confirmation page (brief Part G) with the VSL again. Fires Schedule.
+not-a-fit.html         /not-a-fit: shown instead of the calendar to unqualified leads (brief Part E)
+assets/vsl/config.js   ALL editable content, shared by the 3 pages: videoUrl, bookingLink, tracking IDs,
+                       pricing, people, tool logos, client logos, case studies, testimonials, screenshot, FAQ
 assets/vsl/vsl.css     page styles (separate from site.css)
 assets/vsl/vsl.js      motion, video, Cal.com embeds, tracking, UTM capture
 assets/tools/*.png     tool logos          ┐ same files already in the sparqlabs repo,
@@ -36,7 +38,11 @@ If the pilot doesn't produce a single SQL, we pay ₹10,000. After the pilot: �
 - [CONFIRM] lock-in FAQ: write the answer in `faq`; the question stays hidden while the answer is empty.
 - [NEEDS REAL QUOTES] `testimonials`: block stays hidden until real, approved quotes are added.
 - [CONFIRM] logo list, certifications, "Pilot spots open" line, second office city (footer shows Bengaluru only).
-- Cal.com qualifying questions + not-a-fit routing (brief Part E) are configured in Cal.com, not in this repo.
+- Cal.com qualifying questions + routing (brief Part E) are configured in Cal.com, not in this repo.
+  In Cal.com: send not-a-fit answers to https://sparq-vsl-three.vercel.app/not-a-fit and set the event's
+  success redirect to https://sparq-vsl-three.vercel.app/booked (this also tracks bookings made on mobile).
+- The stack marquee (How it works) was added on request; the brief suggested cutting it. Remove the
+  .stack-band block in vsl.html to drop it. Product mock-ups (draft email, reply board) are labelled Example.
 - `tracking.gtmId` / `tracking.metaPixelId`: Sparq Labs IDs only. Events: PageView, VideoPlay, ViewContent at 50%
   of the video and a past-pricing (~4:00) milestone (both for .mp4 videos), CtaClick, BookingLinkClick,
   Schedule (once per session on a confirmed Cal.com booking). UTMs are passed through to Cal.com.
