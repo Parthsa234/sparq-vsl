@@ -18,9 +18,24 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Poppins:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap">
 <script>document.documentElement.classList.add('js')</script>
-<link rel="stylesheet" href="/assets/vsl/vsl.css?v=4.5">
+<link rel="stylesheet" href="/assets/vsl/vsl.css?v=5.0">
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '30046987718237213');
+fbq('track', 'PageView');
+</script>
+<!-- End Meta Pixel Code -->
 </head>
 <body>
+<noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=30046987718237213&ev=PageView&noscript=1"></noscript>
 <div class="progress" aria-hidden="true"><i id="progress"></i></div>
 
 <!-- ============ S1 · STICKY NAV ============ -->
@@ -30,7 +45,8 @@
     <div class="hdr-r">
       <!-- [CONFIRM] Keep only if Nish caps pilots per month. Otherwise delete this span. -->
       <span class="hdr-note"><i class="dot"></i>Pilot spots open this month</span>
-      <a class="btn btn-sm btn-blue" href="#book" data-cta="header">Book your pilot call</a>
+      <a class="btn btn-sm btn-call" href="tel:+919511501112" data-contact="call-header" aria-label="Call Sparq Labs on +91 95115 01112"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2Z"/></svg><span>Call</span></a>
+      <a class="btn btn-sm btn-blue" href="#apply" data-cta="header">Book your pilot call</a>
     </div>
   </div>
 </header>
@@ -42,7 +58,7 @@
   <div class="orb orb-a" aria-hidden="true"></div><div class="orb orb-b" aria-hidden="true"></div>
   <div class="wrap hero-in">
     <span class="tag rv"><i></i>For AEO · GEO · Content · Social · PR agencies doing ₹40L+ a month</span>
-    <h1 class="rv d1">Choose your clients.<br><span class="grad">Not the other way around.</span></h1>
+    <h1 class="rv d1">Put consistent, qualified meetings <span class="grad">on your calendar.</span></h1>
     <p class="sub rv d2">We build and run a signal-based outbound engine that puts qualified sales calls on your agency's calendar every week. The first 14 days are on us.</p>
 
     <ul class="offer-chips rv d3">
@@ -56,79 +72,31 @@
       <div class="vsl-frame" id="vsl-frame"></div>
     </div>
 
-    <div class="hero-foot rv d4">
-      <a class="btn btn-blue btn-lg" href="#book" data-cta="hero">Book your pilot call <span class="ar">→</span></a>
-      <div class="hero-proof">
-        <img src="/assets/nish-avatar.jpg" alt="" width="40" height="40">
-        <span><b>Nishkarsh Agarwal</b> takes every call himself · 30 min</span>
+    <!-- Contact-us application. apply.js renders the questions from SPARQ_VSL.application, then shows
+         Nish's Cal.com calendar inline (prefilled) for a qualified applicant. -->
+    <div class="apply rv d4" id="apply">
+      <div class="apply-head">
+        <span class="apply-kicker"><img src="/assets/nish-avatar.jpg" alt="" width="28" height="28">Nishkarsh Agarwal takes every call himself · 30 min</span>
+        <h2 id="apply-title">Contact us: apply for your free pilot call</h2>
+        <p>Two quick steps. If it's a fit, pick a time on Nish's calendar right here.</p>
+      </div>
+      <div class="apply-body" id="apply-body" aria-labelledby="apply-title">
+        <noscript><p class="apply-ns">This form needs JavaScript. <a href="https://cal.com/shrinish/30mins">Open the booking page</a>.</p></noscript>
       </div>
     </div>
   </div>
   <div id="hero-end" aria-hidden="true"></div>
 </section>
 
-<!-- ============ S3 · RESULTS (light, the only proof section) ============ -->
-<section class="sec proof" id="results">
-  <!-- Client marquee, same treatment as getsparq.ai: big names, then an outlined reverse row. -->
+<!-- ============ S3 · SOCIAL PROOF (client ticker) ============ -->
+<section class="proof" id="results" aria-label="Clients">
   <div class="clients">
     <div class="wrap clients-head">
-      <h2 class="rv">Trusted by <mark>16</mark> <b>B2B teams</b> we've run outbound for</h2>
+      <h2 class="rv">Trusted by <mark>50+</mark> <b>B2B teams</b> we've run outbound for</h2>
     </div>
     <div class="bigmarq" aria-label="Clients"><div id="clients-a"></div></div>
     <div class="wrap"><p class="mono clients-sub">Meetings we've booked for clients include teams at</p></div>
     <div class="bigmarq outline rev" aria-label="Companies we've booked meetings with"><div id="clients-b"></div></div>
-  </div>
-
-  <div class="wrap">
-    <div class="head-split solo">
-      <div class="sec-head">
-        <span class="eyebrow rv">Results</span>
-        <h2 class="rv d1">Agencies and B2B teams we've built outbound for.</h2>
-        <p class="lead rv d2">Same operating model every time: live buying signals, verified lists, infrastructure in your name, and a reply desk that answers positive replies in under two minutes.</p>
-      </div>
-    </div>
-
-    <!-- Block 2 · Testimonials: real, published client quotes only (SPARQ_VSL.testimonials). -->
-    <div class="testis" id="testis" hidden></div>
-
-    <!-- Block 5 · Disclaimer + button -->
-    <div class="proof-foot">
-      <p class="disc">Quotes as published in the SparqLabs 2026 case studies.</p>
-      <a class="btn btn-blue" href="#book" data-cta="results">Book your pilot call <span class="ar">→</span></a>
-    </div>
-  </div>
-</section>
-
-<!-- ============ S4 · PAIN (light grey) ============ -->
-<section class="sec problem">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow rv">Sound familiar?</span>
-      <h2 class="rv d1 h-long">You got to ₹40 lakh a month on referrals. <span class="muted">Referrals won't get you to ₹40 crore a year.</span></h2>
-    </div>
-    <div class="pains">
-      <article class="pain rv"><span class="pn">01</span><h3>One quiet referral month</h3><p>Busy one month, wondering where the next client comes from two months later.</p></article>
-      <article class="pain rv d1"><span class="pn">02</span><h3>Lose one client, need two</h3><p>A retainer ends and you need two new clients just to stay level.</p></article>
-      <article class="pain rv d2"><span class="pn">03</span><h3>You're the whole sales team</h3><p>Every new retainer needs you on the call, so growth stops when you're busy.</p></article>
-      <article class="pain rv d3"><span class="pn">04</span><h3>You've tried the fixes</h3><p>The SDR who quit. The list that never replied. Posts that got likes, not clients.</p></article>
-    </div>
-    <div class="punch-row">
-      <p class="punch rv">The problem isn't effort. Referrals give you no control over <em>timing</em>, <em>volume</em> or <em>who you talk to</em>.</p>
-      <!-- Illustration only: no real numbers. -->
-      <figure class="flow rv d1" aria-label="Illustration: referral pipeline is uneven, a signal engine is steady">
-        <div class="flow-row">
-          <span class="flow-k">Referrals</span>
-          <div class="flow-bars bad"><i style="--h:80%"></i><i style="--h:20%"></i><i style="--h:8%"></i><i style="--h:65%"></i><i style="--h:12%"></i><i style="--h:5%"></i><i style="--h:90%"></i><i style="--h:15%"></i></div>
-          <span class="flow-t">feast or famine</span>
-        </div>
-        <div class="flow-row">
-          <span class="flow-k">Signals</span>
-          <div class="flow-bars good"><i style="--h:42%"></i><i style="--h:48%"></i><i style="--h:52%"></i><i style="--h:55%"></i><i style="--h:60%"></i><i style="--h:63%"></i><i style="--h:68%"></i><i style="--h:72%"></i></div>
-          <span class="flow-t">new conversations every week</span>
-        </div>
-        <figcaption>Illustration, not client data</figcaption>
-      </figure>
-    </div>
   </div>
 </section>
 
@@ -227,6 +195,9 @@
     <div class="marq tools"><div class="marq-track" id="tools-a"></div></div>
     <div class="marq tools rev"><div class="marq-track" id="tools-b"></div></div>
   </div>
+  <div class="wrap">
+    <div class="end-cta rv"><a class="btn btn-blue btn-lg nudge" href="#apply" data-cta="end-engine">Explore this for your company <span class="ar">→</span></a></div>
+  </div>
 </section>
 
 <!-- ============ S6 · OFFER + PRICING (dark) ============ -->
@@ -254,7 +225,7 @@
           <span>We pay you this if the pilot doesn't produce a single sales-qualified lead.</span>
           <small>SQL = a decision-maker at a company in your agreed ICP who books a call about your service.</small>
         </div>
-        <a class="btn btn-blue btn-lg" href="#book" data-cta="offer">Book your pilot call <span class="ar">→</span></a>
+        <a class="btn btn-blue btn-lg" href="#apply" data-cta="offer">Book your pilot call <span class="ar">→</span></a>
       </article>
       <article class="after rv d1">
         <span class="badge ghost">After the pilot · no surprises</span>
@@ -268,30 +239,7 @@
       </article>
     </div>
 
-    <!-- Notion-style pilot plan. Steps come from the offer and FAQ; no dates promised beyond day 14. -->
-    <div class="doc plan rv">
-      <div class="doc-bar"><i></i><i></i><i></i><span class="doc-title">Pilot plan · your agency</span></div>
-      <div class="plan-in">
-        <div class="plan-head">
-          <span class="plan-ico" aria-hidden="true">🚀</span>
-          <h3>Your 14 days, step by step</h3>
-          <dl class="props">
-            <div><dt>Length</dt><dd>14 days</dd></div>
-            <div><dt>Retainer</dt><dd>₹0</dd></div>
-            <div><dt>Your part</dt><dd>One call, one review, take the calls</dd></div>
-            <div><dt>If zero SQLs</dt><dd class="g">We pay you ₹10,000</dd></div>
-          </dl>
-        </div>
-        <ol class="todo">
-          <li><i></i><div><b>Onboarding call</b><span>We learn your offer and your best clients.</span></div><em>You + Sparq</em></li>
-          <li><i></i><div><b>List and signals</b><span>Ideal client list built, segmented and matched to buying moments.</span></div><em>Sparq</em></li>
-          <li><i></i><div><b>Quick review</b><span>You check the list and the copy before anything is sent.</span></div><em>You</em></li>
-          <li><i></i><div><b>First campaign live</b><span>Email, LinkedIn and calls go out from infrastructure in your name.</span></div><em>Sparq</em></li>
-          <li><i></i><div><b>Replies handled, calls booked</b><span>Qualified buyers land on your calendar. You see every message.</span></div><em>Sparq</em></li>
-          <li><i></i><div><b>Day 14: you decide</b><span>You've seen the targeting and every conversation. Continue or walk away.</span></div><em>You</em></li>
-        </ol>
-      </div>
-    </div>
+    <div class="end-cta rv"><a class="btn btn-blue btn-lg nudge" href="#apply" data-cta="end-offer">Book a free pilot <span class="ar">→</span></a></div>
   </div>
 </section>
 
@@ -327,6 +275,7 @@
         </ul>
       </div>
     </div>
+    <div class="end-cta rv"><a class="btn btn-blue btn-lg nudge" href="#apply" data-cta="end-fit">Talk to the founder <span class="ar">→</span></a></div>
   </div>
 </section>
 
@@ -344,26 +293,11 @@
       <li class="rv d1"><span class="w-ic" aria-hidden="true">✉</span><b>You see every message</b><span>Targeting, copy and every reply, as it happens.</span></li>
       <li class="rv d2"><span class="w-ic" aria-hidden="true">⌂</span><b>Infrastructure in your name</b><span>Kept separate from your main domain to protect it.</span></li>
     </ul>
+    <div class="end-cta rv"><a class="btn btn-blue btn-lg nudge" href="#apply" data-cta="end-team">Talk to Nish <span class="ar">→</span></a></div>
   </div>
 </section>
 
-<!-- ============ S9 · FAQ (light grey) ============ -->
-<section class="sec faq">
-  <div class="wrap faq-grid">
-    <div class="rv faq-side">
-      <span class="eyebrow">Questions</span>
-      <h2>What agency founders ask before booking.</h2>
-      <a class="btn btn-ink" href="#book" data-cta="faq">Book your pilot call <span class="ar">→</span></a>
-      <div class="ask">
-        <img src="/assets/nish-avatar.jpg" alt="" width="52" height="52">
-        <div><b>Nishkarsh Agarwal</b><span>Takes every pilot call himself · 30 min · Google Meet</span></div>
-      </div>
-    </div>
-    <div class="qa rv d1" id="faq"></div>
-  </div>
-</section>
-
-<!-- ============ S10 · BOOK + FOOTER (dark, the only calendar) ============ -->
+<!-- ============ S9 · BOOK (dark) · before the FAQ ============ -->
 <section class="sec dark final" id="book">
   <div class="grid-bg" aria-hidden="true"></div>
   <div class="orb orb-a" aria-hidden="true"></div>
@@ -386,18 +320,41 @@
         <a class="btn btn-blue btn-lg cal-mobile-btn js-cal-link" href="#" target="_blank" rel="noopener" data-cta="book-mobile">Open the calendar <span class="ar">→</span></a>
       </div>
       <div class="cal-shell rv d1">
-        <div class="cal-embed" id="cal-main" data-ns="sparq-vsl"></div>
+        <div class="cal-embed" id="cal-main" data-ns="sparq-vsl" data-auto></div>
         <p class="cal-fallback">Calendar not loading? <a class="js-cal-link" href="#" target="_blank" rel="noopener">Open the booking page →</a></p>
       </div>
     </div>
-    <footer class="fine">© Sparq Labs · Bengaluru · Jaipur · Clients across India, the US, the UK and the GCC</footer>
   </div>
 </section>
+<!-- ============ S10 · FAQ (light grey) ============ -->
+<section class="sec faq">
+  <div class="wrap faq-grid">
+    <div class="rv faq-side">
+      <span class="eyebrow">Questions</span>
+      <h2>What agency founders ask before booking.</h2>
+      <a class="btn btn-ink" href="#apply" data-cta="faq">Book your pilot call <span class="ar">→</span></a>
+      <div class="ask">
+        <img src="/assets/nish-avatar.jpg" alt="" width="52" height="52">
+        <div><b>Nishkarsh Agarwal</b><span>Takes every pilot call himself · 30 min · Google Meet</span></div>
+      </div>
+    </div>
+    <div class="qa rv d1" id="faq"></div>
+  </div>
+</section>
+
 </main>
 
-<a class="sticky-cta" id="sticky" href="#book" data-cta="sticky"><span><b>Free 14-day pilot</b><small>for agencies at ₹40L+/month</small></span><em>Book call →</em></a>
+<footer class="site-foot"><div class="wrap">© Sparq Labs · Bengaluru · Jaipur · Clients across India, the US, the UK and the GCC</div></footer>
 
-<script src="/assets/vsl/config.js?v=4.5"></script>
-<script src="/assets/vsl/vsl.js?v=4.5" defer></script>
+<a class="sticky-cta" id="sticky" href="#apply" data-cta="sticky"><span><b>Free 14-day pilot</b><small>for agencies at ₹40L+/month</small></span><em>Book call →</em></a>
+
+<div class="fab" id="fab">
+  <a class="fab-btn fab-wa" href="https://wa.me/919511501112" target="_blank" rel="noopener" data-contact="whatsapp" aria-label="WhatsApp Sparq Labs on +91 95115 01112"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s1 2.6 1.1 2.7c.1.2 1.9 2.9 4.6 4.1 1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.8-1.2.2-.6.2-1.1.1-1.2l-.4-.3Z"/></svg><span>WhatsApp me</span></a>
+  <a class="fab-btn fab-call" href="tel:+919511501112" data-contact="call-float" aria-label="Call Sparq Labs on +91 95115 01112"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2Z"/></svg><span>Call me</span></a>
+</div>
+
+<script src="/assets/vsl/config.js?v=5.0"></script>
+<script src="/assets/vsl/vsl.js?v=5.0" defer></script>
+<script src="/assets/vsl/apply.js?v=5.0" defer></script>
 </body>
 </html>

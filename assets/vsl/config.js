@@ -8,7 +8,7 @@ window.SPARQ_VSL = {
   // [NEEDS REAL VIDEO] If the full VSL isn't recorded, use a 60–90 sec Loom of Nish for now.
   videoUrl: 'https://youtu.be/t2YL6nm__8w',
   // Thumbnail: Nish's face looking at camera + "How we put qualified calls on your calendar".
-  videoPoster: '',
+  videoPoster: '/assets/founder.webp',   // shown until play is clicked (Nish + title, per brief S2)
   videoTitle: 'How we put qualified calls on your calendar',
 
   bookingLink: 'shrinish/30mins',   // Cal.com event. Qualifying questions (brief Part E) are set up inside Cal.com.
@@ -16,7 +16,7 @@ window.SPARQ_VSL = {
   tracking: {
     // Sparq Labs IDs only. Do NOT reuse GTME.School's GTM-NPFX54H8 or Pixel 3411910105669587.
     gtmId: '',
-    metaPixelId: '',
+    metaPixelId: '30046987718237213',   // Meta Pixel. Base code lives in each page's <head>; vsl.js only sends events.
     pricingSecond: 240      // "watched past the pricing part" milestone (~4:00)
   },
 
@@ -28,7 +28,7 @@ window.SPARQ_VSL = {
   ],
 
   people: [
-    { name: 'Nishkarsh Agarwal', role: 'Founder, Sparq Labs', photo: '/assets/founder.jpg',
+    { name: 'Nishkarsh Agarwal', role: 'Founder, Sparq Labs', photo: '/assets/founder.webp',
       bio: 'Built outbound systems with Vertical GTM, C17 Lab and OpenBorder before founding Sparq Labs. Runs GTME Launchpad and teaches the system at GTME.School. Takes every pilot call himself.',
       tags: ['Clay Certified Expert', 'Instantly Certified Expert'],   // [CONFIRM] both certifications
       linkedin: 'https://www.linkedin.com/company/sparqai/' },
@@ -41,6 +41,42 @@ window.SPARQ_VSL = {
   // Tool logos for the stack marquee (files in /assets/tools). Split into two rows.
   tools: ['clay', 'apollo', 'prospeo', 'builtwith', 'trigify', 'rb2b', 'leadmagic', 'findymail', 'bettercontact', 'ocean-io', 'apify', 'linkedin',
           'instantly', 'smartlead', 'emailbison', 'heyreach', 'vapi', 'n8n', 'claude', 'chatgpt', 'perplexity', 'hubspot', 'gohighlevel', 'slack'],
+
+  // Direct contact (header Call button + floating Call / WhatsApp buttons).
+  contact: { tel: '+919511501112', display: '+91 95115 01112', whatsapp: '919511501112' },
+
+  // Contact-us application, shown under the video. Questions, wording, options and routing are copied
+  // from the design brief v1, Part E ("Booking form questions"). Change them here only; apply.js renders them.
+  // A qualified applicant gets Nish's Cal.com calendar inline (prefilled); anyone matching a `disqualify`
+  // answer goes to /not-a-fit. Answers are kept in memory only, never in browser storage.
+  application: {
+    source: 'Sparq VSL design brief v1 · Part E',
+    endpoint: '',   // optional: URL that receives every application as JSON (e.g. a Zapier/Make/n8n webhook). Empty = not sent anywhere.
+    blockedEmailDomains: ['gmail.com', 'googlemail.com', 'yahoo.com', 'yahoo.co.in', 'yahoo.in', 'ymail.com', 'outlook.com', 'outlook.in', 'hotmail.com', 'live.com'],
+    steps: [
+      { title: 'About you', fields: [
+        { id: 'name', label: 'Your name', type: 'text', required: true, autocomplete: 'name' },
+        { id: 'email', label: 'Work email', type: 'email', required: true, autocomplete: 'email', workEmail: true },
+        { id: 'whatsapp', label: 'WhatsApp number', type: 'tel', required: true, autocomplete: 'tel', prefix: '+91' },
+        { id: 'website', label: 'Agency website', type: 'url', required: true, autocomplete: 'url', placeholder: 'youragency.com' }
+      ] },
+      { title: 'Your agency', fields: [
+        { id: 'agency_type', label: 'What kind of agency do you run?', type: 'choice', required: true,
+          options: ['AEO / GEO', 'Content', 'Social media', 'PR', 'Other'], disqualify: ['Other'] },
+        { id: 'revenue', label: "What's your agency's monthly revenue?", type: 'choice', required: true,
+          options: ['Under ₹10L', '₹10–25L', '₹25–40L', '₹40L–1Cr', '₹1Cr+'], disqualify: ['Under ₹10L', '₹10–25L', '₹25–40L'] },
+        { id: 'budget', label: 'After the free pilot, most agencies invest around ₹3 lakh a month. Does that work for you?', type: 'choice', required: true,
+          options: ['Yes', 'Yes, if the pilot works', 'Not right now'], disqualify: ['Not right now'] },
+        { id: 'markets', label: 'Where are most of your clients?', type: 'choice', required: true,
+          options: ['India', 'US', 'UK / Europe', 'Middle East', 'Mixed'] },
+        { id: 'client_value', label: "What's your average client worth per month?", type: 'choice', required: true,
+          options: ['Under ₹50K', '₹50K–1.5L', '₹1.5–5L', '₹5L+'] },
+        { id: 'closer', label: 'Who closes new clients today?', type: 'choice', required: true,
+          options: ['Me (founder)', 'A sales lead', 'No one yet'] },
+        { id: 'headache', label: "What's your biggest growth headache right now?", type: 'textarea', required: false }
+      ] }
+    ]
+  },
 
   // Client marquee (getsparq.ai style). From the SparqLabs 2026 case studies; own brands
   // (SparqLabs, GTME.School), the Bazooka vendor case and Howdy GTM ("details to confirm") left out.

@@ -35,9 +35,18 @@
     var p = Object.assign({ page: PAGE }, attribution(), params || {});
     w.dataLayer.push(Object.assign({ event: 'sparq_vsl_' + name.toLowerCase(), event_id: id }, p));
     // Direct Pixel conversions only when the Pixel was loaded here. If it lives in GTM, map these dataLayer events there.
+    // Pixel base code + PageView live in each page's <head>. Only funnel events are sent from here.
     if (T.metaPixelId && w.fbq) {
-      if (name === 'Schedule') w.fbq('track', 'Schedule', {}, { eventID: id });
+      var px = params || {};
+      if (name === 'Schedule') w.fbq('track', 'Schedule', {}, { eventID: id });                       // BookingCompleted
       if (name === 'Video50') w.fbq('track', 'ViewContent', { content_name: 'VSL' }, { eventID: id });
+      if (name === 'ApplicationStarted') w.fbq('trackCustom', 'ApplicationStarted', {}, { eventID: id });
+      if (name === 'ApplicationCompleted') {
+        w.fbq('trackCustom', 'ApplicationCompleted', { qualified: !!px.qualified }, { eventID: id });
+        if (px.qualified) w.fbq('track', 'Lead', { content_name: 'Pilot application' }, { eventID: id + '-lead' });
+      }
+      if (name === 'ContactClick') w.fbq('track', 'Contact', { method: px.method }, { eventID: id });
+      if (name === 'BookingStarted') w.fbq('trackCustom', 'BookingStarted', { source: px.source }, { eventID: id });
     }
     if (debug) console.info('[sparq-vsl]', name, p);
     return true;
@@ -53,6 +62,9 @@
   })();
   function attribution() { try { return JSON.parse(store('sparq_vsl_attr') || '{}'); } catch (e) { return {}; } }
 
+  $$('[data-contact]').forEach(function (a) {
+    a.addEventListener('click', function () { track('ContactClick', { method: a.getAttribute('data-contact') }, { repeat: true }); });
+  });
   $$('[data-cta]').forEach(function (a) { a.addEventListener('click', function () { track('CtaClick', { cta: a.getAttribute('data-cta') }, { repeat: true }); }); });
 
   /* ---------- render content from config ---------- */
@@ -164,7 +176,8 @@
 
   /* ---------- scroll-linked: progress bar, engine line, sticky CTA ---------- */
   var hdr = $('.hdr'), bar = $('#progress'), steps = $('#steps'), stepEls = $$('.step'), sticky = $('#sticky');
-  var bookEls = [$('#book')], heroEnd = $('#hero-end');
+  var bookEls = [$('#book'), $('#apply')], heroEnd = $('#hero-end'), fab = $('#fab');
+  var desktopView = !w.matchMedia || w.matchMedia('(min-width: 900px)').matches;
   var ticking = false;
   function onScroll() {
     ticking = false;
@@ -182,9 +195,19 @@
       var inBook = bookEls.some(function (b) { if (!b) return false; var br = b.getBoundingClientRect(); return br.top < w.innerHeight * 0.8 && br.bottom > w.innerHeight * 0.2; });
       sticky.classList.toggle('show', past && !inBook);
     }
+    if (fab) {
+      var calOpen = bookEls.some(function (b) {
+        // Desktop: the form has room beside the buttons; only step aside for a calendar. Phones: step aside for the form too.
+        if (!b || (b.id === 'apply' && desktopView && !b.classList.contains('is-booking'))) return false;
+        var br = b.getBoundingClientRect(); return br.top < w.innerHeight * 0.85 && br.bottom > w.innerHeight * 0.15;
+      });
+      fab.classList.toggle('away', calOpen);
+      fab.classList.toggle('lift', !!(sticky && sticky.classList.contains('show')));
+    }
   }
   w.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
   w.addEventListener('resize', onScroll); onScroll();
+  w.SPARQ_REFRESH = onScroll;
 
   /* ---------- VSL ---------- */
   function embedUrl(u) {
@@ -236,13 +259,23 @@
       var src = embedUrl(url);
       var load = function (auto) {
         var s = src + (auto ? (/[?&]$/.test(src) ? '' : '&') + (src.indexOf('wistia') > -1 ? 'autoPlay=true' : 'autoplay=1') : '');
-        frame.innerHTML = '<iframe src="' + esc(s) + '" title="Sparq Labs VSL" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe>';
-        if (s.indexOf('youtube') > -1) ytProgress(frame.querySelector('iframe'));
+        frame.innerHTML = '<div class="vsl-loading" role="status"><i></i><span>Loading the video…</span></div>' +
+          '<iframe src="' + esc(s) + '" title="Sparq Labs VSL: ' + esc(C.videoTitle || '') + '" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe>';
+        var ifr = frame.querySelector('iframe'), ok = false;
+        ifr.addEventListener('load', function () { ok = true; frame.classList.add('ready'); });
+        // Error fallback: if the player hasn't loaded in 12 s (blocked, offline, removed video), offer the direct link.
+        setTimeout(function () {
+          if (ok) return;
+          frame.insertAdjacentHTML('beforeend', '<div class="vsl-err"><b>The video is taking a while to load.</b><a href="' + esc(url) + '" target="_blank" rel="noopener">Watch it on the video page →</a></div>');
+        }, 12000);
+        if (s.indexOf('youtube') > -1) ytProgress(ifr);
       };
       if (!src) frame.innerHTML = '<div class="vsl-ph"><b>Unsupported video URL</b><small>Use Vimeo, YouTube, Loom, Wistia or .mp4</small></div>';
       else if (!C.videoPoster) { load(false); w.addEventListener('blur', function () { if (d.activeElement && d.activeElement.tagName === 'IFRAME' && frame.contains(d.activeElement)) track('VideoPlay'); }); }
       else {
-        frame.innerHTML = '<img class="vsl-poster" src="' + esc(C.videoPoster) + '" alt="" width="1280" height="720"><button class="vsl-play" type="button" aria-label="Play the Sparq Labs video"><span>' + PLAY + '</span></button>';
+        frame.innerHTML = '<img class="vsl-poster" src="' + esc(C.videoPoster) + '" alt="" width="1280" height="720" fetchpriority="high">' +
+          '<button class="vsl-play" type="button" aria-label="Play the video: ' + esc(C.videoTitle || 'Sparq Labs') + '"><span>' + PLAY + '</span></button>' +
+          '<div class="vsl-poster-t" aria-hidden="true"><b>' + esc(C.videoTitle || '') + '</b><small>Watch first · ~6 min · Nishkarsh Agarwal</small></div>';
         frame.querySelector('.vsl-play').addEventListener('click', function () { track('VideoPlay'); load(true); });
       }
     }
@@ -258,29 +291,45 @@
   });
   // Mobile: never embed (Cal renders an empty white box). The "Open the calendar" button shows instead.
   var desktop = !w.matchMedia || w.matchMedia('(min-width: 900px)').matches;
-  if (link && desktop) {
+  function loadCal() {
+    if (w.Cal && w.Cal.loaded !== undefined) return;
     (function (C2, A, L) { var p = function (a, ar) { a.q.push(ar); }; var doc = C2.document; C2.Cal = C2.Cal || function () { var cal = C2.Cal; var ar = arguments;
       if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; doc.head.appendChild(doc.createElement('script')).src = A; cal.loaded = true; }
       if (ar[0] === L) { var api = function () { p(api, arguments); }; var ns = ar[1]; api.q = api.q || [];
         if (typeof ns === 'string') { cal.ns[ns] = cal.ns[ns] || api; p(cal.ns[ns], ar); p(cal, ['initNamespace', ns]); } else p(cal, ar); return; }
       p(cal, ar); }; })(w, 'https://app.cal.com/embed/embed.js', 'init');
-    var mount = function (el) {
-      if (el.dataset.mounted) return; el.dataset.mounted = '1'; el.innerHTML = '';
-      var ns = el.getAttribute('data-ns');
-      w.Cal('init', ns, { origin: 'https://cal.com' });
-      w.Cal.ns[ns]('inline', { elementOrSelector: '#' + el.id, calLink: link, config: Object.assign({ layout: 'month_view' }, attribution()) });
-      w.Cal.ns[ns]('ui', { hideEventTypeDetails: false, layout: 'month_view', cssVarsPerTheme: { light: { 'cal-brand': '#2E77FC' }, dark: { 'cal-brand': '#2E77FC' } } });
-      // One Schedule conversion per session.
-      w.Cal.ns[ns]('on', { action: 'bookingSuccessful', callback: function () { track('Schedule', { embed: ns }, { persist: true }); } });
-    };
-    var cals = $$('.cal-embed');
+  }
+  // Mounts Nish's event inline. `prefill` (name, email, notes, ...) is passed to Cal.com as booking-form values.
+  function mountCal(el, prefill, onBooked) {
+    if (!link || !el || el.dataset.mounted) return false;
+    loadCal();
+    el.dataset.mounted = '1'; el.innerHTML = '';
+    var ns = el.getAttribute('data-ns') || ('sparq-' + el.id);
+    w.Cal('init', ns, { origin: 'https://cal.com' });
+    w.Cal.ns[ns]('inline', { elementOrSelector: '#' + el.id, calLink: link, config: Object.assign({ layout: 'month_view' }, attribution(), prefill || {}) });
+    w.Cal.ns[ns]('ui', { hideEventTypeDetails: false, layout: 'month_view', cssVarsPerTheme: { light: { 'cal-brand': '#2E77FC' }, dark: { 'cal-brand': '#2E77FC' } } });
+    // One Schedule (BookingCompleted) conversion per session, whichever calendar the visitor books in.
+    w.Cal.ns[ns]('on', { action: 'bookingSuccessful', callback: function () { track('Schedule', { embed: ns }, { persist: true }); if (onBooked) onBooked(); } });
+    w.Cal.ns[ns]('on', { action: 'linkFailed', callback: function () {
+      el.innerHTML = '<div class="cal-loading">The calendar didn\'t load. <a href="' + esc(calUrl(prefill)) + '" target="_blank" rel="noopener">Open the booking page →</a></div>';
+    } });
+    return true;
+  }
+  function calUrl(prefill) {
+    var q = new URLSearchParams(Object.assign({}, attribution(), prefill || {})).toString();
+    return 'https://cal.com/' + link + (q ? '?' + q : '');
+  }
+  w.SPARQ = { track: track, attribution: attribution, mountCal: mountCal, calUrl: calUrl, desktop: desktop, esc: esc };
+  if (link && desktop) {
+    var mount = function (el) { if (mountCal(el)) track('BookingStarted', { source: 'book-section' }); };
+    var cals = $$('.cal-embed[data-auto]');
     cals.forEach(function (el) { el.innerHTML = '<div class="cal-loading">Loading Nish\'s calendar…</div>'; });
     if ('IntersectionObserver' in w) {
       var cio = new IntersectionObserver(function (en) { en.forEach(function (e) { if (e.isIntersecting) { mount(e.target); cio.unobserve(e.target); } }); }, { rootMargin: '700px 0px' });
       cals.forEach(function (el) { cio.observe(el); });
     } else cals.forEach(mount);
   } else {
-    if (!link) $$('.cal-embed').forEach(function (el) { el.innerHTML = '<div class="cal-loading">Booking embed · set bookingLink in the page config</div>'; });
+    if (!link) $$('.cal-embed[data-auto]').forEach(function (el) { el.innerHTML = '<div class="cal-loading">Booking embed · set bookingLink in the page config</div>'; });
   }
 
   track('PageView');
