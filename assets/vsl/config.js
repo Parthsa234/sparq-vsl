@@ -6,7 +6,7 @@
 window.SPARQ_VSL = {
   // The ~6-minute VSL: Vimeo, YouTube, Loom, Wistia, Google Drive link or an .mp4. Empty = thumbnail placeholder.
   // [NEEDS REAL VIDEO] If the full VSL isn't recorded, use a 60–90 sec Loom of Nish for now.
-  videoUrl: 'https://drive.google.com/file/d/1I33eMbixSls0NF1EcQWjaRs6qYSQ0C-u/view',
+  videoUrl: 'https://youtu.be/t2YL6nm__8w',
   // Thumbnail: Nish's face looking at camera + "How we put qualified calls on your calendar".
   videoPoster: '',
   videoTitle: 'How we put qualified calls on your calendar',
