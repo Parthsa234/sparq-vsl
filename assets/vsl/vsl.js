@@ -262,7 +262,7 @@
         frame.innerHTML = '<div class="vsl-loading" role="status"><i></i><span>Loading the video…</span></div>' +
           '<iframe src="' + esc(s) + '" title="Sparq Labs VSL: ' + esc(C.videoTitle || '') + '" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe>';
         var ifr = frame.querySelector('iframe'), ok = false;
-        ifr.addEventListener('load', function () { ok = true; frame.classList.add('ready'); });
+        ifr.addEventListener('load', function () { ok = true; frame.classList.add('is-loaded'); });
         // Error fallback: if the player hasn't loaded in 12 s (blocked, offline, removed video), offer the direct link.
         setTimeout(function () {
           if (ok) return;
