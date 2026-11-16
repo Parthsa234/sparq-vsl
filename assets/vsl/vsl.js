@@ -183,12 +183,30 @@
       var h = (u.match(/[?&]h=([a-z0-9]+)/i) || [])[1] || m[2];
       return 'https://player.vimeo.com/video/' + m[1] + '?playsinline=1' + (h ? '&h=' + h : '');
     }
-    if ((m = u.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/))) return 'https://www.youtube-nocookie.com/embed/' + m[1] + '?rel=0&playsinline=1';
+    if ((m = u.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/))) return 'https://www.youtube-nocookie.com/embed/' + m[1] + '?rel=0&playsinline=1&modestbranding=1&enablejsapi=1&origin=' + encodeURIComponent(w.location.origin);
     if ((m = u.match(/loom\.com\/(?:share|embed)\/([a-z0-9]+)/i))) return 'https://www.loom.com/embed/' + m[1] + '?';
     // Google Drive: the file must be shared as "Anyone with the link". Drive's player has no autoplay or progress API.
     if ((m = u.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=\w+&)?id=)([\w-]{20,})/))) return 'https://drive.google.com/file/d/' + m[1] + '/preview?';
     if ((m = u.match(/wistia\.(?:com|net)\/(?:medias|embed\/iframe)\/([a-z0-9]+)/i))) return 'https://fast.wistia.net/embed/iframe/' + m[1] + '?';
     return '';
+  }
+  // YouTube: ask the player for status updates, then fire VideoPlay, Video50 (Pixel ViewContent) and VideoPastPricing.
+  function ytProgress(ifr) {
+    if (!ifr) return;
+    var hello = function () { try { ifr.contentWindow.postMessage(JSON.stringify({ event: 'listening', id: 'sparq-vsl', channel: 'widget' }), '*'); } catch (e) {} };
+    ifr.addEventListener('load', function () { hello(); setTimeout(hello, 1000); });
+    w.addEventListener('message', function (e) {
+      if (!/youtube(-nocookie)?\.com$/.test((e.origin || '').replace(/^https?:\/\//, '').replace(/^www\./, ''))) return;
+      var m; try { m = typeof e.data === 'string' ? JSON.parse(e.data) : e.data; } catch (x) { return; }
+      var info = m && m.info; if (!info || typeof info !== 'object') return;
+      if (info.playerState === 1) track('VideoPlay');
+      var t = info.currentTime, dur = info.duration || ytProgress.dur;
+      if (info.duration) ytProgress.dur = info.duration;
+      if (typeof t === 'number' && t > 0) {
+        if (dur && t / dur >= 0.5) track('Video50');
+        if (t >= (T.pricingSecond || 240)) track('VideoPastPricing');
+      }
+    });
   }
   var frame = $('#vsl-frame'), url = (C.videoUrl || '').trim();
   var PLAY = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>';
@@ -209,6 +227,7 @@
       var load = function (auto) {
         var s = src + (auto ? (/[?&]$/.test(src) ? '' : '&') + (src.indexOf('wistia') > -1 ? 'autoPlay=true' : 'autoplay=1') : '');
         frame.innerHTML = '<iframe src="' + esc(s) + '" title="Sparq Labs VSL" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe>';
+        if (s.indexOf('youtube') > -1) ytProgress(frame.querySelector('iframe'));
       };
       if (!src) frame.innerHTML = '<div class="vsl-ph"><b>Unsupported video URL</b><small>Use Vimeo, YouTube, Loom, Wistia or .mp4</small></div>';
       else if (!C.videoPoster) { load(false); w.addEventListener('blur', function () { if (d.activeElement && d.activeElement.tagName === 'IFRAME' && frame.contains(d.activeElement)) track('VideoPlay'); }); }
