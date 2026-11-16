@@ -70,10 +70,18 @@
 <!-- ============ S3 · RESULTS (light, the only proof section) ============ -->
 <section class="sec proof" id="results">
   <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow rv">Results</span>
-      <h2 class="rv d1">Agencies and B2B teams we've built outbound for.</h2>
-      <p class="lead rv d2">50+ teams. Same operating model every time: live buying signals, verified lists, infrastructure in your name, and a reply desk that answers positive replies in under two minutes.</p>
+    <div class="head-split">
+      <div class="sec-head">
+        <span class="eyebrow rv">Results</span>
+        <h2 class="rv d1">Agencies and B2B teams we've built outbound for.</h2>
+        <p class="lead rv d2">50+ teams. Same operating model every time: live buying signals, verified lists, infrastructure in your name, and a reply desk that answers positive replies in under two minutes.</p>
+      </div>
+      <!-- Numbers moved here from the old stats bar (brief Part B, row 3). -->
+      <ul class="kpis rv d2">
+        <li><b>50+</b><span>B2B teams we've run outbound for</span></li>
+        <li><b>&lt;2 min</b><span>to answer a positive reply</span></li>
+        <li><b>4</b><span>client markets: India, the US, the UK and the GCC</span></li>
+      </ul>
     </div>
 
     <!-- Block 1 · 3 case cards -->
@@ -112,7 +120,23 @@
       <article class="pain rv d2"><span class="pn">03</span><h3>You're the whole sales team</h3><p>Every new retainer needs you on the call, so growth stops when you're busy.</p></article>
       <article class="pain rv d3"><span class="pn">04</span><h3>You've tried the fixes</h3><p>The SDR who quit. The list that never replied. Posts that got likes, not clients.</p></article>
     </div>
-    <p class="punch rv">The problem isn't effort. Referrals give you no control over <em>timing</em>, <em>volume</em> or <em>who you talk to</em>.</p>
+    <div class="punch-row">
+      <p class="punch rv">The problem isn't effort. Referrals give you no control over <em>timing</em>, <em>volume</em> or <em>who you talk to</em>.</p>
+      <!-- Illustration only: no real numbers. -->
+      <figure class="flow rv d1" aria-label="Illustration: referral pipeline is uneven, a signal engine is steady">
+        <div class="flow-row">
+          <span class="flow-k">Referrals</span>
+          <div class="flow-bars bad"><i style="--h:80%"></i><i style="--h:20%"></i><i style="--h:8%"></i><i style="--h:65%"></i><i style="--h:12%"></i><i style="--h:5%"></i><i style="--h:90%"></i><i style="--h:15%"></i></div>
+          <span class="flow-t">feast or famine</span>
+        </div>
+        <div class="flow-row">
+          <span class="flow-k">Signals</span>
+          <div class="flow-bars good"><i style="--h:42%"></i><i style="--h:48%"></i><i style="--h:52%"></i><i style="--h:55%"></i><i style="--h:60%"></i><i style="--h:63%"></i><i style="--h:68%"></i><i style="--h:72%"></i></div>
+          <span class="flow-t">new conversations every week</span>
+        </div>
+        <figcaption>Illustration, not client data</figcaption>
+      </figure>
+    </div>
   </div>
 </section>
 
@@ -129,9 +153,11 @@
       <li class="step rv">
         <div class="step-n">01</div>
         <div class="step-b step-split">
-          <div>
+          <div class="step-txt">
             <h3>Signals and lists</h3>
             <p>We define your best-fit clients with you, then track the moments that matter for your service. Every account on the list has a reason to hear from you now.</p>
+            <ul class="chips"><li>Funding</li><li>Product launches</li><li>New marketing leaders</li><li>Hiring</li><li>Traffic changes</li></ul>
+            <div class="uses"><span>Data from</span><img src="/assets/tools/clay.png" alt="Clay" title="Clay"><img src="/assets/tools/apollo.png" alt="Apollo" title="Apollo"><img src="/assets/tools/prospeo.png" alt="Prospeo" title="Prospeo"><img src="/assets/tools/builtwith.png" alt="BuiltWith" title="BuiltWith"><img src="/assets/tools/trigify.png" alt="Trigify" title="Trigify"><img src="/assets/tools/rb2b.png" alt="RB2B" title="RB2B"></div>
           </div>
           <div class="feed" aria-label="Example buying signals">
             <div class="feed-bar"><span><i class="dot"></i>signal feed</span><span class="muted">Example signals</span></div>
@@ -141,29 +167,73 @@
       </li>
       <li class="step rv">
         <div class="step-n">02</div>
-        <div class="step-b">
-          <h3>Messages about that moment</h3>
-          <p>Every message references the reason. Written with AI and our own tooling, tested until one angle works.</p>
-          <div class="msg"><span class="mono">preview</span><p>“Saw you just brought on a new Head of Marketing. Most teams in that first 90 days rethink…”</p></div>
+        <div class="step-b step-split">
+          <div class="step-txt">
+            <h3>Messages about that moment</h3>
+            <p>Every message references the reason. Written with AI and our own tooling, tested until one angle works.</p>
+            <div class="uses"><span>Written with</span><img src="/assets/tools/claude.png" alt="Claude" title="Claude"><img src="/assets/tools/chatgpt.png" alt="ChatGPT" title="ChatGPT"><img src="/assets/tools/perplexity.png" alt="Perplexity" title="Perplexity"></div>
+          </div>
+          <!-- Notion-style draft. Illustrative example. -->
+          <div class="doc mail">
+            <div class="doc-bar"><span class="doc-tab on">Angle A</span><span class="doc-tab">Angle B</span><span class="doc-tab">Angle C</span><span class="doc-ex">Example</span></div>
+            <div class="mail-meta">
+              <div><span>To</span><b>Head of Marketing</b><em>B2B fintech</em></div>
+              <div><span>Signal</span><mark>New leader · 3 weeks in</mark></div>
+              <div><span>Subject</span><b>Your first 90 days</b></div>
+            </div>
+            <p class="mail-body">Saw you just brought on a new Head of Marketing. Most teams in that first 90 days rethink which channels they own<span class="caret" aria-hidden="true"></span></p>
+            <div class="mail-foot"><span class="pill ok">Angle A · winning</span><span class="pill">Angle B · testing</span></div>
+          </div>
         </div>
       </li>
       <li class="step rv">
         <div class="step-n">03</div>
-        <div class="step-b">
-          <h3>Email, LinkedIn and phone</h3>
-          <p>Cold email, LinkedIn, and calls to people who engage. Not one channel and hope.</p>
-          <ul class="chips"><li>Email</li><li>LinkedIn</li><li>Phone to engaged prospects</li></ul>
+        <div class="step-b step-split">
+          <div class="step-txt">
+            <h3>Email, LinkedIn and phone</h3>
+            <p>Cold email, LinkedIn, and calls to people who engage. Not one channel and hope.</p>
+          </div>
+          <div class="channels">
+            <div class="ch"><div class="ch-ic"><img src="/assets/tools/instantly.png" alt=""><img src="/assets/tools/smartlead.png" alt=""></div><b>Cold email</b><span>Sent from domains in your name</span></div>
+            <div class="ch"><div class="ch-ic"><img src="/assets/tools/linkedin.png" alt=""><img src="/assets/tools/heyreach.png" alt=""></div><b>LinkedIn</b><span>Connection + message sequences</span></div>
+            <div class="ch"><div class="ch-ic"><img src="/assets/tools/vapi.png" alt=""></div><b>Phone</b><span>Calls to prospects who engage</span></div>
+          </div>
         </div>
       </li>
       <li class="step rv">
         <div class="step-n">04</div>
-        <div class="step-b">
-          <h3>Replies and booking</h3>
-          <p>AI agents we set up and monitor answer every reply fast. Interested buyers are qualified and booked onto your calendar. You see every message.</p>
-          <div class="booked"><i class="dot"></i><span>New call booked · qualified · on your calendar</span></div>
+        <div class="step-b step-split">
+          <div class="step-txt">
+            <h3>Replies and booking</h3>
+            <p>AI agents we set up and monitor answer every reply fast. Interested buyers are qualified and booked onto your calendar. You see every message.</p>
+            <div class="booked"><i class="dot"></i><span>New call booked · qualified · on your calendar</span></div>
+            <div class="uses"><span>Routed with</span><img src="/assets/tools/n8n.png" alt="n8n" title="n8n"><img src="/assets/tools/hubspot.png" alt="HubSpot" title="HubSpot"><img src="/assets/tools/gohighlevel.png" alt="GoHighLevel" title="GoHighLevel"><img src="/assets/tools/slack.png" alt="Slack" title="Slack"></div>
+          </div>
+          <!-- Notion-style board. Illustrative example. -->
+          <div class="doc board">
+            <div class="doc-bar"><span class="doc-title">Reply desk</span><span class="doc-ex">Example</span></div>
+            <div class="cols">
+              <div class="col"><span class="col-h"><i style="background:#F5A524"></i>New reply</span>
+                <div class="kc"><b>VP Marketing</b><span>D2C brand · “Send me more”</span></div>
+                <div class="kc"><b>Founder</b><span>SaaS · “Not now, Q3?”</span></div>
+              </div>
+              <div class="col"><span class="col-h"><i style="background:#2E77FC"></i>Qualified</span>
+                <div class="kc"><b>Head of Growth</b><span>Fintech · fits ICP</span></div>
+              </div>
+              <div class="col"><span class="col-h"><i style="background:#3DDBA9"></i>Booked</span>
+                <div class="kc win"><b>CMO</b><span>Health-tech · Thu 4:30 pm</span></div>
+              </div>
+            </div>
+          </div>
         </div>
       </li>
     </ol>
+  </div>
+  <!-- Stack marquee (added on request; the brief suggested cutting the separate stack section). -->
+  <div class="stack-band">
+    <p class="mono-cap">The stack we run for you · you don't buy, learn or manage any of it</p>
+    <div class="marq tools"><div class="marq-track" id="tools-a"></div></div>
+    <div class="marq tools rev"><div class="marq-track" id="tools-b"></div></div>
   </div>
 </section>
 
@@ -198,8 +268,37 @@
         <span class="badge ghost">After the pilot · no surprises</span>
         <h3>A working month</h3>
         <div class="price-rows" id="pricing"></div>
+        <p class="incl-h">The retainer covers</p>
+        <ul class="incl">
+          <li>Infrastructure</li><li>Data</li><li>Copy</li><li>Sending</li><li>Reply handling</li><li>Team</li>
+        </ul>
         <p class="note">Your per-call fee depends on your market, your average deal size and how hard your buyers are to reach. You don't buy, learn or manage any tools: infrastructure is passed through at cost, with no markup.</p>
       </article>
+    </div>
+
+    <!-- Notion-style pilot plan. Steps come from the offer and FAQ; no dates promised beyond day 14. -->
+    <div class="doc plan rv">
+      <div class="doc-bar"><i></i><i></i><i></i><span class="doc-title">Pilot plan · your agency</span></div>
+      <div class="plan-in">
+        <div class="plan-head">
+          <span class="plan-ico" aria-hidden="true">🚀</span>
+          <h3>Your 14 days, step by step</h3>
+          <dl class="props">
+            <div><dt>Length</dt><dd>14 days</dd></div>
+            <div><dt>Retainer</dt><dd>₹0</dd></div>
+            <div><dt>Your part</dt><dd>One call, one review, take the calls</dd></div>
+            <div><dt>If zero SQLs</dt><dd class="g">We pay you ₹10,000</dd></div>
+          </dl>
+        </div>
+        <ol class="todo">
+          <li><i></i><div><b>Onboarding call</b><span>We learn your offer and your best clients.</span></div><em>You + Sparq</em></li>
+          <li><i></i><div><b>List and signals</b><span>Ideal client list built, segmented and matched to buying moments.</span></div><em>Sparq</em></li>
+          <li><i></i><div><b>Quick review</b><span>You check the list and the copy before anything is sent.</span></div><em>You</em></li>
+          <li><i></i><div><b>First campaign live</b><span>Email, LinkedIn and calls go out from infrastructure in your name.</span></div><em>Sparq</em></li>
+          <li><i></i><div><b>Replies handled, calls booked</b><span>Qualified buyers land on your calendar. You see every message.</span></div><em>Sparq</em></li>
+          <li><i></i><div><b>Day 14: you decide</b><span>You've seen the targeting and every conversation. Continue or walk away.</span></div><em>You</em></li>
+        </ol>
+      </div>
     </div>
   </div>
 </section>
@@ -211,21 +310,28 @@
       <span class="eyebrow rv">Who it's for</span>
       <h2 class="rv d1">We take a few agencies at a time. Here's who fits.</h2>
     </div>
+    <ul class="types rv">
+      <li><span>AEO</span>AI answer engines</li>
+      <li><span>GEO</span>Generative search</li>
+      <li><span>Content</span>Content marketing</li>
+      <li><span>Social</span>Social media</li>
+      <li><span>PR</span>Public relations</li>
+    </ul>
     <div class="fit-grid">
       <div class="fit-col yes rv">
         <h3><span>✓</span>A fit if you…</h3>
         <ul>
-          <li>Run an AEO, GEO, content, social or PR agency</li>
-          <li>Do ₹40 lakh+ a month and can put ~₹3 lakh a month into growth</li>
-          <li>Have someone senior to take and close the calls</li>
+          <li><b>01</b>Run an AEO, GEO, content, social or PR agency</li>
+          <li><b>02</b>Do ₹40 lakh+ a month and can put ~₹3 lakh a month into growth</li>
+          <li><b>03</b>Have someone senior to take and close the calls</li>
         </ul>
       </div>
       <div class="fit-col no rv d1">
         <h3><span>✕</span>Not a fit if you…</h3>
         <ul>
-          <li>Are under ₹40 lakh a month</li>
-          <li>Want a guaranteed number of meetings</li>
-          <li>Want a lead list, not a system run with you</li>
+          <li><b>01</b>Are under ₹40 lakh a month</li>
+          <li><b>02</b>Want a guaranteed number of meetings</li>
+          <li><b>03</b>Want a lead list, not a system run with you</li>
         </ul>
       </div>
     </div>
@@ -241,16 +347,25 @@
       <p class="lead rv d2">We build the engine and run it with you. A founder is in every client's weekly review.</p>
     </div>
     <div class="people" id="people"></div>
+    <ul class="ways">
+      <li class="rv"><span class="w-ic" aria-hidden="true">◎</span><b>A founder in every weekly review</b><span>Not an account manager reading a report.</span></li>
+      <li class="rv d1"><span class="w-ic" aria-hidden="true">✉</span><b>You see every message</b><span>Targeting, copy and every reply, as it happens.</span></li>
+      <li class="rv d2"><span class="w-ic" aria-hidden="true">⌂</span><b>Infrastructure in your name</b><span>Kept separate from your main domain to protect it.</span></li>
+    </ul>
   </div>
 </section>
 
 <!-- ============ S9 · FAQ (light grey) ============ -->
 <section class="sec faq">
   <div class="wrap faq-grid">
-    <div class="rv">
+    <div class="rv faq-side">
       <span class="eyebrow">Questions</span>
       <h2>What agency founders ask before booking.</h2>
       <a class="btn btn-ink" href="#book" data-cta="faq">Book your pilot call <span class="ar">→</span></a>
+      <div class="ask">
+        <img src="/assets/nish-avatar.jpg" alt="" width="52" height="52">
+        <div><b>Nishkarsh Agarwal</b><span>Takes every pilot call himself · 30 min · Google Meet</span></div>
+      </div>
     </div>
     <div class="qa rv d1" id="faq"></div>
   </div>
@@ -272,6 +387,10 @@
           <li><b>The moments your buyers move on</b><span>Funding, launches, new CMOs, traffic drops, hiring.</span></li>
           <li><b>Whether the 14-day pilot makes sense</b><span>Market, deal size, and who on your side takes the calls.</span></li>
         </ol>
+        <div class="host">
+          <img src="/assets/nish-avatar.jpg" alt="" width="44" height="44">
+          <div><b>Nishkarsh Agarwal</b><span>Founder, Sparq Labs · 30 min · Google Meet</span></div>
+        </div>
         <a class="btn btn-blue btn-lg cal-mobile-btn js-cal-link" href="#" target="_blank" rel="noopener" data-cta="book-mobile">Open the calendar <span class="ar">→</span></a>
       </div>
       <div class="cal-shell rv d1">
@@ -287,95 +406,7 @@
 
 <a class="sticky-cta" id="sticky" href="#book" data-cta="sticky"><span><b>Free 14-day pilot</b><small>for agencies at ₹40L+/month</small></span><em>Book call →</em></a>
 
-<script>
-/* =====================================================================
-   SPARQ LABS VSL — everything you need to edit lives in this object.
-   Offer facts follow the design brief (Part A). Change a number here AND
-   in the static copy above (search the page for "₹").
-   ===================================================================== */
-window.SPARQ_VSL = {
-  // The ~6-minute VSL: Vimeo, YouTube, Loom, Wistia link or an .mp4. Empty = thumbnail placeholder.
-  // [NEEDS REAL VIDEO] If the full VSL isn't recorded, use a 60–90 sec Loom of Nish for now.
-  videoUrl: '',
-  // Thumbnail: Nish's face looking at camera + "How we put qualified calls on your calendar".
-  videoPoster: '',
-  videoTitle: 'How we put qualified calls on your calendar',
-
-  bookingLink: 'shrinish/30mins',   // Cal.com event. Qualifying questions (brief Part E) are set up inside Cal.com.
-
-  tracking: {
-    // Sparq Labs IDs only. Do NOT reuse GTME.School's GTM-NPFX54H8 or Pixel 3411910105669587.
-    gtmId: '',
-    metaPixelId: '',
-    pricingSecond: 240      // "watched past the pricing part" milestone (~4:00)
-  },
-
-  // Brief Part A. Retainer is [CONFIRM] with Nish.
-  pricing: [
-    { label: 'Monthly retainer', value: '₹2,00,000', sub: 'infrastructure, data, copy, sending, reply handling, team' },
-    { label: 'Per qualified call', value: '₹8,000–40,000', sub: 'only for calls that meet the agreed bar' },
-    { label: 'Typical working month', value: '~₹3,00,000', sub: 'what most agencies land at', hl: true }
-  ],
-
-  people: [
-    { name: 'Nishkarsh Agarwal', role: 'Founder, Sparq Labs', photo: '/assets/founder.jpg',
-      bio: 'Built outbound systems with Vertical GTM, C17 Lab and OpenBorder before founding Sparq Labs. Runs GTME Launchpad and teaches the system at GTME.School. Takes every pilot call himself.',
-      tags: ['Clay Certified Expert', 'Instantly Certified Expert'],   // [CONFIRM] both certifications
-      linkedin: 'https://www.linkedin.com/company/sparqai/' },
-    { name: 'Dai Bamenou', role: 'Co-founder, Sparq Labs', photo: '/assets/vsl/dai.jpg', initials: 'D',
-      bio: 'US-based GTM operator with experience at Clay. Writes for 2K+ followers on LinkedIn about GTM engineering, AI and automation.',
-      tags: ['Clay Cup 2025 · Top 5', 'GTM engineering'],
-      linkedin: 'https://www.linkedin.com/in/mrdaioff/' }
-  ],
-
-  // [CONFIRM list with Nish] Only clients Sparq ran directly and that agreed to be shown.
-  logos: ['MZ Media', 'OkayDone', 'Kontent Media', 'HappyFolks', 'RouteElite', 'FilterKing', 'Zaap.ai', 'LetsUnbound', 'WiseMango', 'Sufix Tech', 'Workscape Designs', 'byeHotelier', 'Sales Vantage'],
-
-  // Illustrative examples for the signal feed (not real companies).
-  signals: [
-    ['Funding', 'D2C skincare brand', 'raised a Series A'],
-    ['New leader', 'B2B fintech', 'hired a new CMO'],
-    ['Traffic', 'SaaS company', 'organic traffic down 31% QoQ'],
-    ['Launch', 'Health-tech startup', 'launched a new product line'],
-    ['Hiring', 'E-commerce brand', 'posted 3 content marketing roles'],
-    ['AI search', 'HR-tech platform', 'missing from AI answers for its category'],
-    ['Funding', 'Climate-tech company', 'closed a seed round'],
-    ['New leader', 'Edtech company', 'new VP Marketing, 3 weeks in']
-  ],
-
-  // 3 cards, order matters. Past results stay in the currency they happened in.
-  // [CONFIRM] If Kontent Media has numbers, it replaces RouteElite.
-  cases: [
-    { client: 'MZ Media', sector: 'SaaS product video agency', metric: '41+', unit: 'SQLs in August', featured: true,
-      problem: 'Needed qualified SaaS buyers beyond referrals.',
-      result: '35K+ emails across email, LinkedIn, Loom and AI voice, with an n8n reply agent routing interest into GoHighLevel.' },
-    { client: 'OkayDone', sector: 'Agency · Bengaluru', metric: '6.42%', unit: 'reply rate',
-      problem: 'Wanted conversations with brands that have real budgets.',
-      result: '1,411 replies and 169 positive replies from 21,991 emails.' },
-    { client: 'RouteElite', sector: 'Logistics · US', metric: '$38,440', unit: 'new revenue',
-      problem: 'Response rate stuck at 0.5%.',
-      result: 'Rose to 5%+ within 60 days, with 350+ recurring subscriptions.' }
-  ],
-
-  // [NEEDS REAL QUOTES] Leave empty until real, approved quotes exist. Never add a placeholder.
-  // Shape: { photo, quote (max 30 words), name, role, company, linkedin, video (optional URL) }
-  testimonials: [],
-
-  shot: { src: '/assets/proof/dash-13k.jpg', stat: 'One client · July · 13.4K sent · 2.0% reply rate · 64 opportunities · $215,000',
-          cap: 'One client\'s sending dashboard, July. $215,000 is opportunity (pipeline) value, not closed revenue. Open tracking is off to protect deliverability, so opens show 0%.' },
-
-  faq: [
-    ['Does cold outbound still work in 2026?', 'Generic blasts don\'t. Messages tied to a real moment in the buyer\'s business do. That\'s why every account we contact has a signal behind it, and why we test angles instead of sending one script.'],
-    ['What do I need to do, and how fast does it start?', 'One onboarding call so we understand your offer and best clients, a quick review of the list and copy, then show up to the calls. Campaigns launch within days of sign-off.'],
-    ['What counts as a qualified call?', 'A decision-maker at a company in the ICP we agree on together, who books a call about your service. We agree the bar with you before anything is sent.'],
-    ['Will you guarantee a number of meetings?', 'No. The pilot shows you how the engine works in your market. If it produces zero sales-qualified leads, we pay you ₹10,000 for your time.'],
-    ['What does it cost after the pilot?', 'A ₹2,00,000 monthly retainer plus a fee for each qualified call we book. Most months land around ₹3,00,000. Infrastructure is passed through at cost. We confirm your exact numbers on the call.'],
-    // [CONFIRM with Nish] minimum term, notice period. Hidden until an answer is written here.
-    ['Is there a lock-in after the pilot?', ''],
-    ['Whose name and domains do you send from?', 'Your agency\'s, on sending infrastructure set up in your name and kept separate from your main domain to protect it.']
-  ]
-};
-</script>
+<script src="/assets/vsl/config.js"></script>
 <script src="/assets/vsl/vsl.js" defer></script>
 </body>
 </html>

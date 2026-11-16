@@ -6,11 +6,19 @@
     {
       "source": "/vsl",
       "destination": "/vsl.html"
+    },
+    {
+      "source": "/booked",
+      "destination": "/booked.html"
+    },
+    {
+      "source": "/not-a-fit",
+      "destination": "/not-a-fit.html"
     }
   ],
   "headers": [
     {
-      "source": "/vsl(.html)?",
+      "source": "/(vsl|booked|not-a-fit)(.html)?",
       "headers": [
         {
           "key": "X-Content-Type-Options",
