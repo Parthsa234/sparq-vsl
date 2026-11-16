@@ -8,7 +8,8 @@ vsl.html               the landing page (static copy)
 booked.html            /booked: confirmation page (brief Part G) with the VSL again. Fires Schedule.
 not-a-fit.html         /not-a-fit: shown instead of the calendar to unqualified leads (brief Part E)
 assets/vsl/config.js   ALL editable content, shared by the 3 pages: videoUrl, bookingLink, tracking IDs,
-                       pricing, people, tool logos, client logos, case studies, testimonials, screenshot, FAQ
+                       pricing, people, tool logos, client marquee (clients, meetingsWith), 3 featured cases, moreCases,
+                       testimonials, screenshot, FAQ
 assets/vsl/vsl.css     page styles (separate from site.css)
 assets/vsl/vsl.js      motion, video, Cal.com embeds, tracking, UTM capture
 assets/tools/*.png     tool logos          ┐ same files already in the sparqlabs repo,
@@ -42,8 +43,8 @@ If the pilot doesn't produce a single SQL, we pay ₹10,000. After the pilot: �
   and VideoPastPricing (~4:00, `tracking.pricingSecond`).
 - [CONFIRM] revenue bar (₹40L) and retainer (₹2,00,000): change in the static copy and the SPARQ_VSL config.
 - [CONFIRM] lock-in FAQ: write the answer in `faq`; the question stays hidden while the answer is empty.
-- [NEEDS REAL QUOTES] `testimonials`: block stays hidden until real, approved quotes are added.
-- [CONFIRM] logo list, certifications, "Pilot spots open" line, second office city (footer shows Bengaluru only).
+- Case studies, client names and the two quotes come from the SparqLabs 2026 case-study deck (HappyFolks, RouteElite).
+- [CONFIRM] logo list, certifications, "Pilot spots open" line, (footer offices: Bengaluru · Jaipur, per the 2026 case-study deck).
 - Cal.com qualifying questions + routing (brief Part E) are configured in Cal.com, not in this repo.
   In Cal.com: send not-a-fit answers to https://sparq-vsl-three.vercel.app/not-a-fit and set the event's
   success redirect to https://sparq-vsl-three.vercel.app/booked (this also tracks bookings made on mobile).

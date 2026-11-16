@@ -42,8 +42,12 @@ window.SPARQ_VSL = {
   tools: ['clay', 'apollo', 'prospeo', 'builtwith', 'trigify', 'rb2b', 'leadmagic', 'findymail', 'bettercontact', 'ocean-io', 'apify', 'linkedin',
           'instantly', 'smartlead', 'emailbison', 'heyreach', 'vapi', 'n8n', 'claude', 'chatgpt', 'perplexity', 'hubspot', 'gohighlevel', 'slack'],
 
-  // [CONFIRM list with Nish] Only clients Sparq ran directly and that agreed to be shown.
-  logos: ['MZ Media', 'OkayDone', 'Kontent Media', 'HappyFolks', 'RouteElite', 'FilterKing', 'Zaap.ai', 'LetsUnbound', 'WiseMango', 'Sufix Tech', 'Workscape Designs', 'byeHotelier', 'Sales Vantage'],
+  // Client marquee (getsparq.ai style). From the SparqLabs 2026 case studies; own brands
+  // (SparqLabs, GTME.School), the Bazooka vendor case and Howdy GTM ("details to confirm") left out.
+  clients: ['MZ Media', 'OkayDone', 'WiseMango', 'RouteElite', 'HappyFolks', 'Kontent Media', 'FilterKing', 'Zaap.ai',
+            'LetsUnbound', 'Sales Vantage', 'Think Macro', 'Sufix Tech', 'Workscape Designs', 'byeHotelier', 'tagthose', 'Go Market Labs'],
+  // Second, outlined row: as published on getsparq.ai.
+  meetingsWith: ['CEQUENS', 'weteams', 'FIFA', 'yrefy'],
 
   // Illustrative examples for the signal feed (not real companies).
   signals: [
@@ -57,23 +61,41 @@ window.SPARQ_VSL = {
     ['New leader', 'Edtech company', 'new VP Marketing, 3 weeks in']
   ],
 
-  // 3 cards, order matters. Past results stay in the currency they happened in.
-  // [CONFIRM] If Kontent Media has numbers, it replaces RouteElite.
+  // 3 featured cards: agencies first (closest match to the buyer). Source: SparqLabs 2026 case studies.
+  // Past results stay in the currency they happened in.
   cases: [
-    { client: 'MZ Media', sector: 'SaaS product video agency', metric: '41+', unit: 'SQLs in August', featured: true,
-      problem: 'Needed qualified SaaS buyers beyond referrals.',
-      result: '35K+ emails across email, LinkedIn, Loom and AI voice, with an n8n reply agent routing interest into GoHighLevel.' },
-    { client: 'OkayDone', sector: 'Agency · Bengaluru', metric: '6.42%', unit: 'reply rate',
-      problem: 'Wanted conversations with brands that have real budgets.',
-      result: '1,411 replies and 169 positive replies from 21,991 emails.' },
-    { client: 'RouteElite', sector: 'Logistics · US', metric: '$38,440', unit: 'new revenue',
-      problem: 'Response rate stuck at 0.5%.',
-      result: 'Rose to 5%+ within 60 days, with 350+ recurring subscriptions.' }
+    { client: 'MZ Media', sector: 'SaaS product video agency', metric: '41+', unit: 'SQLs in one month', featured: true,
+      problem: 'Pipeline leaned on referrals and repeat clients. Needed funded SaaS founders, not one-off edits.',
+      result: '35K+ emails in August across email, LinkedIn, Loom and AI voice. An n8n reply bot routed interest into GoHighLevel; $50M+ raised by funded accounts in the pipeline.' },
+    { client: 'OkayDone', sector: 'Marketing agency · Bengaluru', metric: '6.42%', unit: 'reply rate',
+      problem: 'Lead flow depended on referrals. A previous agency had set the bar at 45 meetings a quarter.',
+      result: '1,411 replies and 169 positive from 21,991 emails. 35+ high-value meetings in 45 days, and 90% of show-ups matched the ICP.' },
+    { client: 'WiseMango', sector: 'Founder branding agency · India', metric: '40+', unit: 'meetings in 14 days',
+      problem: 'Needed to reach founders and C-suite leaders and book calls for LinkedIn branding.',
+      result: 'A free resource as the opener, not a pitch: 61.5% of replies positive, 1–3 new meetings a day and 500+ newsletter sign-ups.' }
   ],
 
-  // [NEEDS REAL QUOTES] Leave empty until real, approved quotes exist. Never add a placeholder.
-  // Shape: { photo, quote (max 30 words), name, role, company, linkedin, video (optional URL) }
-  testimonials: [],
+  // Grid under the featured cards. Headline result per programme, as summarised in the case-study deck.
+  moreCases: [
+    { client: 'RouteElite', sector: 'Logistics services · US', metric: '$38,440', unit: 'new revenue', note: '350+ recurring subscriptions in 5 months; response rate 0.5% → 5%+ in 60 days.' },
+    { client: 'HappyFolks', sector: 'HR tech SaaS · India', metric: '6.7%', unit: 'reply rate', note: '25 opportunities from 549 contacts after 8 test campaigns. Acquired by Kula, Oct 2024.' },
+    { client: 'FilterKing', sector: 'Industrial · HVAC filtration', metric: '76', unit: 'opportunities', note: 'One campaign. Kept the copy, rebuilt the list.' },
+    { client: 'LetsUnbound', sector: 'EdTech · India & UAE', metric: '18', unit: 'school meetings', note: 'Booked in two weeks.' },
+    { client: 'Sufix Tech', sector: 'VA staffing · US', metric: '6.0%', unit: 'reply rate', note: 'Up from 0.84% on the first test.' },
+    { client: 'Think Macro', sector: 'Technology services', metric: '5.3%', unit: 'reply rate', note: 'Across three verticals.' },
+    { client: 'Zaap.ai', sector: 'Creator-economy SaaS', metric: '300+', unit: 'sign-ups', note: 'Plus 600K+ impressions.' },
+    { client: 'Sales Vantage', sector: 'Sales recruitment', metric: '~30', unit: 'positive replies', note: 'In month one.' },
+    { client: 'Bazooka', sector: 'LinkedIn · vendor-published case', metric: '$25K+', unit: 'LTV closed', note: 'Within 3 weeks: 26% reply rate, 15% booking rate.' }
+  ],
+
+  // Real client quotes, as published in the SparqLabs 2026 case studies.
+  // Shape: { photo, quote, name, role, company, linkedin, video (optional URL) }
+  testimonials: [
+    { quote: 'Working with [the SparqLabs] team was one good decision we made while running the company, since they helped us immensely in product positioning, GTM strategy, at time of initial user acquisition, fund raising and even during acquisition.',
+      name: 'Vimal Ramakrishnan', role: 'Ex-founder', company: 'HappyFolks' },
+    { quote: 'Partnering with [SparqLabs] was a pivotal step in our growth journey. The young energetic team and their experience in B2B lead generation channels opened new avenues for us, as we adapted them before our competitors.',
+      name: 'Steven', role: 'VP Operations', company: 'RouteElite' }
+  ],
 
   shot: { src: '/assets/proof/dash-13k.jpg', stat: 'One client · July · 13.4K sent · 2.0% reply rate · 64 opportunities · $215,000',
           cap: 'One client\'s sending dashboard, July. $215,000 is opportunity (pipeline) value, not closed revenue. Open tracking is off to protect deliverability, so opens show 0%.' },

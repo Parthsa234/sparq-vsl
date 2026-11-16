@@ -57,11 +57,15 @@
 
   /* ---------- render content from config ---------- */
   function fill(sel, html) { var el = $(sel); if (el) el.innerHTML = html; }
-  var logoHtml = (C.logos || []).map(function (n) {
-    var o = typeof n === 'string' ? { name: n } : n;
-    return '<span class="lg">' + (o.src ? '<img src="' + esc(o.src) + '" alt="' + esc(o.name) + '" loading="lazy">' : esc(o.name)) + '</span>';
-  }).join('');
-  fill('#logos', logoHtml + logoHtml.replace(/<span class="lg">/g, '<span class="lg" aria-hidden="true">'));
+  // Client marquee (getsparq.ai style): names separated by ✦, list doubled for a seamless loop.
+  function marqRow(list) {
+    var h = (list || []).map(function (n) { return '<span>' + esc(n) + '</span><i aria-hidden="true">✦</i>'; }).join('');
+    var reps = Math.max(1, Math.ceil(12 / Math.max(1, (list || []).length)));   // short lists repeat so the row is wide enough
+    var one = new Array(reps + 1).join(h);
+    return one + one.replace(/<span>/g, '<span aria-hidden="true">');
+  }
+  fill('#clients-a', marqRow(C.clients));
+  fill('#clients-b', marqRow(C.meetingsWith));
 
   var TOOL_NAMES = { 'ocean-io': 'Ocean.io', 'rb2b': 'RB2B', 'n8n': 'n8n', 'chatgpt': 'ChatGPT', 'hubspot': 'HubSpot', 'heyreach': 'HeyReach', 'emailbison': 'EmailBison', 'leadmagic': 'LeadMagic', 'bettercontact': 'BetterContact', 'builtwith': 'BuiltWith', 'linkedin': 'LinkedIn', 'gohighlevel': 'GoHighLevel', 'findymail': 'Findymail' };
   function toolName(t) { return TOOL_NAMES[t] || t.charAt(0).toUpperCase() + t.slice(1); }
@@ -85,7 +89,7 @@
     box.hidden = false;
     box.innerHTML = t.slice(0, 2).map(function (x) {
       return '<figure class="testi rv">' + (x.video ? '<div class="testi-v"><iframe src="' + esc(x.video) + '" title="Testimonial from ' + esc(x.name) + '" allowfullscreen loading="lazy"></iframe></div>' : '') +
-        '<blockquote>“' + esc(x.quote) + '”</blockquote><figcaption>' + (x.photo ? '<img src="' + esc(x.photo) + '" alt="" width="48" height="48" loading="lazy">' : '') +
+        '<blockquote>“' + esc(x.quote) + '”</blockquote><figcaption>' + (x.photo ? '<img src="' + esc(x.photo) + '" alt="" width="48" height="48" loading="lazy">' : '<span class="tav" aria-hidden="true">' + esc(x.name.split(' ').map(function (w) { return w.charAt(0); }).join('').slice(0, 2)) + '</span>') +
         '<span><b>' + esc(x.name) + '</b>' + esc([x.role, x.company].filter(Boolean).join(', ')) + '</span>' +
         (x.linkedin ? '<a href="' + esc(x.linkedin) + '" target="_blank" rel="noopener" aria-label="' + esc(x.name) + ' on LinkedIn">in</a>' : '') + '</figcaption></figure>';
     }).join('');
@@ -109,6 +113,12 @@
     return '<article class="person rv' + (i ? ' d1' : '') + '">' + ph + '<div class="bd"><h3>' + esc(p.name) + '</h3><span class="role">' + esc(p.role) + '</span>' +
       (p.bio ? '<p>' + esc(p.bio) + '</p>' : '') + (tags.length ? '<ul class="ptags">' + tags.join('') + '</ul>' : '') + '</div></article>';
   }).join(''));
+
+  fill('#more-cases', (C.moreCases || []).map(function (c, i) {
+    return '<article class="mc rv' + (i % 3 ? ' d' + (i % 3) : '') + '"><div class="mc-top"><b>' + esc(c.client) + '</b><span>' + esc(c.sector) + '</span></div>' +
+      '<div class="mc-big"><strong>' + esc(c.metric) + '</strong><em>' + esc(c.unit) + '</em></div><p>' + esc(c.note) + '</p></article>';
+  }).join(''));
+  if (!(C.moreCases || []).length) { var mg = $('#case-grid'); if (mg) mg.style.display = 'none'; }
 
   // FAQ: a question with an empty answer stays hidden until the answer is written. First one open.
   fill('#faq', (C.faq || []).filter(function (q) { return q[1]; }).map(function (q, i) {
