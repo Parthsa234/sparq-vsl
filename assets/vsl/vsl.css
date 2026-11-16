@@ -622,3 +622,4 @@ section[id]{scroll-margin-top:84px}
 .mc-big em{font-style:normal;font-size:14px;color:var(--ink-2)}
 .mc p{font-size:14px;color:var(--ink-2)}
 @media(prefers-reduced-motion:reduce){.bigmarq>div{animation:none}}
+.head-split.solo{grid-template-columns:1fr}
