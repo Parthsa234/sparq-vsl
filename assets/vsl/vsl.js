@@ -11,6 +11,7 @@
   function $$(s) { return Array.prototype.slice.call(d.querySelectorAll(s)); }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function store(k, v) { try { if (v === undefined) return w.sessionStorage.getItem(k); w.sessionStorage.setItem(k, v); } catch (e) { return null; } }
+  function readCookie(name) { var m = d.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)')); return m ? decodeURIComponent(m[1]) : ''; }
 
   /* ---------- tracking: loads only what is configured ---------- */
   w.dataLayer = w.dataLayer || [];
@@ -26,18 +27,29 @@
     w.fbq('track', 'PageView');
   }
   var fired = {};
+  // One stable id per session for the "scheduled a call" conversion, shared between the client-side
+  // Pixel Schedule event below and the server-side Conversions API event the cal.com webhook sends
+  // (api/cal-webhook.js) — passed into the Cal embed as metadata so Meta can dedupe the two into one
+  // conversion instead of counting it twice.
+  function scheduleEventId() {
+    var id = store('sparq_vsl_schedule_id');
+    if (!id) { id = 'sq-sched-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10); store('sparq_vsl_schedule_id', id); }
+    return id;
+  }
   function track(name, params, opts) {
     opts = opts || {};
     var key = 'sparq_vsl_' + name + (opts.key ? '_' + opts.key : '');
     if (!opts.repeat && (fired[key] || (opts.persist && store(key)))) return false;
     fired[key] = 1; if (opts.persist) store(key, '1');
-    var id = 'sq-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
+    var id = opts.eventId || ('sq-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8));
     var p = Object.assign({ page: PAGE }, attribution(), params || {});
     w.dataLayer.push(Object.assign({ event: 'sparq_vsl_' + name.toLowerCase(), event_id: id }, p));
     // Direct Pixel conversions only when the Pixel was loaded here. If it lives in GTM, map these dataLayer events there.
     if (T.metaPixelId && w.fbq) {
       if (name === 'Schedule') w.fbq('track', 'Schedule', {}, { eventID: id });
       if (name === 'Video50') w.fbq('track', 'ViewContent', { content_name: 'VSL' }, { eventID: id });
+      // Separate from the Video50 ViewContent above: did they actually reach the calendar, not just the video.
+      if (name === 'CalendarView') w.fbq('trackCustom', 'CalendarView', { embed: params && params.embed }, { eventID: id });
     }
     if (debug) console.info('[sparq-vsl]', name, p);
     return true;
@@ -244,7 +256,11 @@
     if (!link) { a.removeAttribute('href'); return; }
     var q = new URLSearchParams(attribution()).toString();
     a.href = 'https://cal.com/' + link + (q ? '?' + q : '');
-    a.addEventListener('click', function () { track('BookingLinkClick', {}, { repeat: true }); });
+    a.addEventListener('click', function () {
+      track('BookingLinkClick', {}, { repeat: true });
+      // Mobile has no inline embed — clicking through to cal.com IS the "viewed the calendar" moment here.
+      track('CalendarView', { embed: 'link' }, { persist: true });
+    });
   });
   // Mobile: never embed (Cal renders an empty white box). The "Open the calendar" button shows instead.
   var desktop = !w.matchMedia || w.matchMedia('(min-width: 900px)').matches;
@@ -258,10 +274,12 @@
       if (el.dataset.mounted) return; el.dataset.mounted = '1'; el.innerHTML = '';
       var ns = el.getAttribute('data-ns');
       w.Cal('init', ns, { origin: 'https://cal.com' });
-      w.Cal.ns[ns]('inline', { elementOrSelector: '#' + el.id, calLink: link, config: Object.assign({ layout: 'month_view' }, attribution()) });
+      w.Cal.ns[ns]('inline', { elementOrSelector: '#' + el.id, calLink: link, config: Object.assign({ layout: 'month_view' }, attribution(), { metadata: { sparq_event_id: scheduleEventId(), sparq_page_url: w.location.href, fbp: readCookie('_fbp'), fbc: readCookie('_fbc') } }) });
       w.Cal.ns[ns]('ui', { hideEventTypeDetails: false, layout: 'month_view', cssVarsPerTheme: { light: { 'cal-brand': '#2E77FC' }, dark: { 'cal-brand': '#2E77FC' } } });
+      // The embed actually mounting on screen is "viewed the calendar" for desktop. Once per session.
+      track('CalendarView', { embed: ns }, { persist: true });
       // One Schedule conversion per session.
-      w.Cal.ns[ns]('on', { action: 'bookingSuccessful', callback: function () { track('Schedule', { embed: ns }, { persist: true }); } });
+      w.Cal.ns[ns]('on', { action: 'bookingSuccessful', callback: function () { track('Schedule', { embed: ns }, { persist: true, eventId: scheduleEventId() }); } });
     };
     var cals = $$('.cal-embed');
     cals.forEach(function (el) { el.innerHTML = '<div class="cal-loading">Loading Nish\'s calendar…</div>'; });
@@ -276,5 +294,5 @@
   track('PageView');
   // Cal.com redirects here after a booking (set the redirect in the Cal.com event settings).
   // Covers mobile visitors who book on the Cal.com page instead of the embed. Once per session.
-  if (PAGE === '/booked') track('Schedule', { source: 'confirmation_page' }, { persist: true });
+  if (PAGE === '/booked') track('Schedule', { source: 'confirmation_page' }, { persist: true, eventId: scheduleEventId() });
 })(window, document);
