@@ -5,10 +5,14 @@
    ===================================================================== */
 window.SPARQ_VSL = {
   // The ~6-minute VSL: Vimeo, YouTube, Loom, Wistia, Google Drive link or an .mp4. Empty = thumbnail placeholder.
-  // [NEEDS REAL VIDEO] If the full VSL isn't recorded, use a 60–90 sec Loom of Nish for now.
-  videoUrl: 'https://youtu.be/t2YL6nm__8w',
-  // Thumbnail: Nish's face looking at camera + "How we put qualified calls on your calendar".
-  videoPoster: '',
+  // Self-hosted MP4 on Vercel Blob (store "sparq-vsl-media", public, bom1): SparqLabs_VSL_16x9_v3,
+  // 1920x1080 H.264 High@4.0 / AAC-LC, 5:27, 114 MB. Remuxed with `-movflags +faststart` (stream copy,
+  // no re-encode) so the moov atom leads the file and the browser can start playing and seek before the
+  // whole file has downloaded. Too big for Git (GitHub caps files at 100 MB) and Vercel does not resolve
+  // Git LFS pointers, so the file is served from Blob's CDN instead of the repo.
+  videoUrl: 'https://hmewpj1i9c70uov4.public.blob.vercel-storage.com/sparq-vsl-v3.mp4',
+  // Thumbnail: Nish looking at camera, frame grab at 0:03 (the video's own first frame is black).
+  videoPoster: '/assets/vsl/poster.jpg',
   videoTitle: 'How we put qualified calls on your calendar',
 
   bookingLink: 'shrinish/30mins',   // Cal.com event. Qualifying questions (brief Part E) are set up inside Cal.com.
