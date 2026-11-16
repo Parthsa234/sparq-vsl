@@ -36,7 +36,7 @@
     // Direct Pixel conversions only when the Pixel was loaded here. If it lives in GTM, map these dataLayer events there.
     if (T.metaPixelId && w.fbq) {
       if (name === 'Schedule') w.fbq('track', 'Schedule', {}, { eventID: id });
-      if (name === 'VideoPlay') w.fbq('track', 'ViewContent', { content_name: 'VSL' }, { eventID: id });
+      if (name === 'Video50') w.fbq('track', 'ViewContent', { content_name: 'VSL' }, { eventID: id });
     }
     if (debug) console.info('[sparq-vsl]', name, p);
     return true;
@@ -62,22 +62,30 @@
   }).join('');
   fill('#logos', logoHtml + logoHtml.replace(/<span class="lg">/g, '<span class="lg" aria-hidden="true">'));
 
-  var tools = C.tools || [], half = Math.ceil(tools.length / 2);
-  function toolName(t) { var m = { 'ocean-io': 'Ocean.io', 'rb2b': 'RB2B', 'n8n': 'n8n', 'chatgpt': 'ChatGPT', 'hubspot': 'HubSpot', 'heyreach': 'HeyReach', 'emailbison': 'EmailBison', 'leadmagic': 'LeadMagic', 'bettercontact': 'BetterContact', 'builtwith': 'BuiltWith', 'linkedin': 'LinkedIn' }; return m[t] || t.charAt(0).toUpperCase() + t.slice(1); }
-  function toolRow(list) { var h = list.map(function (t) { return '<span class="tl"><img src="/assets/tools/' + esc(t) + '.png" alt="" width="28" height="28" loading="lazy" decoding="async">' + esc(toolName(t)) + '</span>'; }).join(''); return h + h.replace(/<span class="tl">/g, '<span class="tl" aria-hidden="true">'); }
-  fill('#tools-a', toolRow(tools.slice(0, half)));
-  fill('#tools-b', toolRow(tools.slice(half)));
-
-  fill('#cases', (C.cases || []).map(function (c, i) {
-    return '<article class="case rv' + (i % 3 ? ' d' + (i % 3) : '') + (c.featured ? ' feat' : '') + '"><div class="top"><b>' + esc(c.client) + '</b><span>' + esc(c.sector) + '</span></div>' +
+  fill('#cases', (C.cases || []).slice(0, 3).map(function (c, i) {
+    return '<article class="case rv' + (i ? ' d' + i : '') + (c.featured ? ' feat' : '') + '"><div class="top"><b>' + esc(c.client) + '</b><span>' + esc(c.sector) + '</span></div>' +
       '<div class="big"><strong>' + esc(c.metric) + '</strong><em>' + esc(c.unit) + '</em></div>' +
       '<dl><dt>The problem</dt><dd>' + esc(c.problem) + '</dd><dt>What happened</dt><dd>' + esc(c.result) + '</dd></dl></article>';
   }).join(''));
 
-  var maxBar = Math.max.apply(null, (C.bars || [{ v: 1 }]).map(function (b) { return b.v; })) * 1.3;
-  fill('#bars', (C.bars || []).map(function (b) {
-    return '<div class="bar' + (b.hl ? ' hl' : '') + '"><em>' + b.v + '%</em><i data-h="' + (b.v / maxBar * 100).toFixed(1) + '"></i><small>' + esc(b.label) + '<br>' + esc(b.sub) + '</small></div>';
-  }).join(''));
+  // Testimonials render only when real, approved quotes are in the config.
+  (function () {
+    var t = (C.testimonials || []).filter(function (x) { return x && x.quote && x.name; }), box = $('#testis');
+    if (!box || !t.length) return;
+    box.hidden = false;
+    box.innerHTML = t.slice(0, 2).map(function (x) {
+      return '<figure class="testi rv">' + (x.video ? '<div class="testi-v"><iframe src="' + esc(x.video) + '" title="Testimonial from ' + esc(x.name) + '" allowfullscreen loading="lazy"></iframe></div>' : '') +
+        '<blockquote>“' + esc(x.quote) + '”</blockquote><figcaption>' + (x.photo ? '<img src="' + esc(x.photo) + '" alt="" width="48" height="48" loading="lazy">' : '') +
+        '<span><b>' + esc(x.name) + '</b>' + esc([x.role, x.company].filter(Boolean).join(', ')) + '</span>' +
+        (x.linkedin ? '<a href="' + esc(x.linkedin) + '" target="_blank" rel="noopener" aria-label="' + esc(x.name) + ' on LinkedIn">in</a>' : '') + '</figcaption></figure>';
+    }).join('');
+  })();
+
+  (function () {
+    var sh = C.shot, el = $('#shot'); if (!el) return;
+    if (!sh || !sh.src) { el.style.display = 'none'; return; }
+    el.innerHTML = '<div class="shot-bar"><span class="mono">' + esc(sh.stat) + '</span></div><img src="' + esc(sh.src) + '" alt="Sending dashboard: ' + esc(sh.stat) + '" width="1400" height="618" loading="lazy" decoding="async"><figcaption>' + esc(sh.cap) + '</figcaption>';
+  })();
 
   fill('#pricing', (C.pricing || []).map(function (p) {
     return '<div class="pr' + (p.hl ? ' hl' : '') + '"><span>' + esc(p.label) + '</span><b>' + esc(p.value) + '</b><small>' + esc(p.sub) + '</small></div>';
@@ -86,27 +94,16 @@
   fill('#people', (C.people || []).map(function (p, i) {
     var ph = p.photo ? '<div class="ph"><img src="' + esc(p.photo) + '" alt="' + esc(p.name) + '" width="600" height="600" loading="lazy" decoding="async"></div>'
                      : '<div class="ph ph-mono" aria-hidden="true"><span>' + esc(p.initials || (p.name || '?').charAt(0)) + '</span></div>';
-    var bio = p.bio ? '<p>' + esc(p.bio) + '</p>' : '<p class="todo">Profile coming soon.</p>';
-    var tags = (p.tags || []).length ? '<ul class="ptags">' + p.tags.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>' : '';
-    var li = p.linkedin ? '<a class="plink" href="' + esc(p.linkedin) + '" target="_blank" rel="noopener">LinkedIn →</a>' : '';
-    return '<article class="person rv' + (i ? ' d1' : '') + '">' + ph + '<div class="bd"><h3>' + esc(p.name) + '</h3><span class="role">' + esc(p.role) + '</span>' + bio + tags + li + '</div></article>';
+    var tags = (p.tags || []).map(function (t) { return '<li>' + esc(t) + '</li>'; });
+    if (p.linkedin) tags.push('<li class="li-chip"><a href="' + esc(p.linkedin) + '" target="_blank" rel="noopener">LinkedIn →</a></li>');
+    return '<article class="person rv' + (i ? ' d1' : '') + '">' + ph + '<div class="bd"><h3>' + esc(p.name) + '</h3><span class="role">' + esc(p.role) + '</span>' +
+      (p.bio ? '<p>' + esc(p.bio) + '</p>' : '') + (tags.length ? '<ul class="ptags">' + tags.join('') + '</ul>' : '') + '</div></article>';
   }).join(''));
 
-  /* ---------- screenshot viewer ---------- */
-  (function () {
-    var shots = C.shots || [], stage = $('#vw-stage'); if (!stage || !shots.length) return;
-    stage.innerHTML = shots.map(function (s, i) { return '<img src="' + esc(s.src) + '" alt="Sending dashboard: ' + esc(s.stat) + '" width="1400" height="618"' + (i ? ' loading="lazy"' : '') + ' decoding="async">'; }).join('');
-    var imgs = stage.querySelectorAll('img'), i = 0, timer;
-    function show(n) {
-      i = (n + shots.length) % shots.length;
-      imgs.forEach(function (im, k) { im.classList.toggle('on', k === i); });
-      $('#vw-n').textContent = ('0' + (i + 1)).slice(-2) + ' / ' + ('0' + shots.length).slice(-2);
-      $('#vw-cap').textContent = shots[i].cap; $('#vw-stat').textContent = shots[i].stat;
-    }
-    function auto() { clearInterval(timer); if (!reduce) timer = setInterval(function () { show(i + 1); }, 4500); }
-    $$('#viewer [data-step]').forEach(function (b) { b.addEventListener('click', function () { show(i + +b.getAttribute('data-step')); auto(); }); });
-    show(0); auto();
-  })();
+  // FAQ: a question with an empty answer stays hidden until the answer is written. First one open.
+  fill('#faq', (C.faq || []).filter(function (q) { return q[1]; }).map(function (q, i) {
+    return '<details' + (i ? '' : ' open') + '><summary>' + esc(q[0]) + '</summary><p>' + esc(q[1]) + '</p></details>';
+  }).join(''));
 
   /* ---------- signal feed ---------- */
   (function () {
@@ -139,17 +136,15 @@
         if (!e.isIntersecting) return;
         var el = e.target; el.classList.add('in');
         el.querySelectorAll('[data-count]').forEach(countUp); if (el.hasAttribute('data-count')) countUp(el);
-        el.querySelectorAll('.bar i').forEach(function (b) { b.style.height = b.getAttribute('data-h') + '%'; });
         io.unobserve(el);
       });
     }, { threshold: 0.14, rootMargin: '0px 0px -40px 0px' });
     $$('.rv').forEach(function (el) { io.observe(el); });
-    $$('.stat b[data-count], .guarantee b[data-count]').forEach(function (el) { if (!el.closest('.rv')) io.observe(el); });
-  } else { $$('.rv').forEach(function (el) { el.classList.add('in'); }); $$('.bar i').forEach(function (b) { b.style.height = b.getAttribute('data-h') + '%'; }); }
+  } else { $$('.rv').forEach(function (el) { el.classList.add('in'); }); }
 
   /* ---------- scroll-linked: progress bar, engine line, sticky CTA ---------- */
   var hdr = $('.hdr'), bar = $('#progress'), steps = $('#steps'), stepEls = $$('.step'), sticky = $('#sticky');
-  var bookEls = [$('#book'), $('#book-final')], heroEnd = $('.stats');
+  var bookEls = [$('#book')], heroEnd = $('#hero-end');
   var ticking = false;
   function onScroll() {
     ticking = false;
@@ -187,10 +182,16 @@
   var PLAY = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>';
   if (frame) {
     if (!url) {
-      frame.innerHTML = '<div class="vsl-ph" role="img" aria-label="Video placeholder"><span class="pb">' + PLAY + '</span><b>How we put qualified calls on your calendar</b><small>VSL video goes here · set videoUrl in the page config</small></div>';
+      // No video yet: thumbnail only (Nish + title). No play button, no placeholder text.
+      frame.innerHTML = '<div class="vsl-ph vsl-thumb" role="img" aria-label="' + esc(C.videoTitle || '') + '"><img src="' + esc(C.videoPoster || '/assets/founder.jpg') + '" alt="" width="1280" height="720"><div class="vsl-thumb-t"><b>' + esc(C.videoTitle || '') + '</b><small>Full breakdown · Nishkarsh Agarwal</small></div></div>';
     } else if (/\.mp4(\?|$)/i.test(url)) {
       frame.innerHTML = '<video controls playsinline preload="metadata"' + (C.videoPoster ? ' poster="' + esc(C.videoPoster) + '"' : '') + '><source src="' + esc(url) + '" type="video/mp4"></video>';
-      frame.querySelector('video').addEventListener('play', function () { track('VideoPlay'); }, { once: true });
+      var v = frame.querySelector('video');
+      v.addEventListener('play', function () { track('VideoPlay'); }, { once: true });
+      v.addEventListener('timeupdate', function () {
+        if (v.duration && v.currentTime / v.duration >= 0.5) track('Video50');
+        if (v.currentTime >= (T.pricingSecond || 240)) track('VideoPastPricing');
+      });
     } else {
       var src = embedUrl(url);
       var load = function (auto) {
@@ -209,12 +210,14 @@
   /* ---------- Cal.com inline embeds (two namespaces, one script) ---------- */
   var link = (C.bookingLink || '').replace(/^https?:\/\/(app\.)?cal\.com\//, '');
   $$('.js-cal-link').forEach(function (a) {
-    if (!link) { a.parentNode.textContent = 'Booking link not configured yet.'; return; }
+    if (!link) { a.removeAttribute('href'); return; }
     var q = new URLSearchParams(attribution()).toString();
     a.href = 'https://cal.com/' + link + (q ? '?' + q : '');
-    a.addEventListener('click', function () { track('BookingLinkClick'); });
+    a.addEventListener('click', function () { track('BookingLinkClick', {}, { repeat: true }); });
   });
-  if (link) {
+  // Mobile: never embed (Cal renders an empty white box). The "Open the calendar" button shows instead.
+  var desktop = !w.matchMedia || w.matchMedia('(min-width: 900px)').matches;
+  if (link && desktop) {
     (function (C2, A, L) { var p = function (a, ar) { a.q.push(ar); }; var doc = C2.document; C2.Cal = C2.Cal || function () { var cal = C2.Cal; var ar = arguments;
       if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; doc.head.appendChild(doc.createElement('script')).src = A; cal.loaded = true; }
       if (ar[0] === L) { var api = function () { p(api, arguments); }; var ns = ar[1]; api.q = api.q || [];
@@ -226,7 +229,7 @@
       w.Cal('init', ns, { origin: 'https://cal.com' });
       w.Cal.ns[ns]('inline', { elementOrSelector: '#' + el.id, calLink: link, config: Object.assign({ layout: 'month_view' }, attribution()) });
       w.Cal.ns[ns]('ui', { hideEventTypeDetails: false, layout: 'month_view', cssVarsPerTheme: { light: { 'cal-brand': '#2E77FC' }, dark: { 'cal-brand': '#2E77FC' } } });
-      // One Schedule conversion per session, whichever embed the visitor books in.
+      // One Schedule conversion per session.
       w.Cal.ns[ns]('on', { action: 'bookingSuccessful', callback: function () { track('Schedule', { embed: ns }, { persist: true }); } });
     };
     var cals = $$('.cal-embed');
@@ -236,7 +239,7 @@
       cals.forEach(function (el) { cio.observe(el); });
     } else cals.forEach(mount);
   } else {
-    $$('.cal-embed').forEach(function (el) { el.innerHTML = '<div class="cal-loading">Booking embed · set bookingLink in the page config</div>'; });
+    if (!link) $$('.cal-embed').forEach(function (el) { el.innerHTML = '<div class="cal-loading">Booking embed · set bookingLink in the page config</div>'; });
   }
 
   track('PageView');
