@@ -185,6 +185,8 @@
     }
     if ((m = u.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/))) return 'https://www.youtube-nocookie.com/embed/' + m[1] + '?rel=0&playsinline=1';
     if ((m = u.match(/loom\.com\/(?:share|embed)\/([a-z0-9]+)/i))) return 'https://www.loom.com/embed/' + m[1] + '?';
+    // Google Drive: the file must be shared as "Anyone with the link". Drive's player has no autoplay or progress API.
+    if ((m = u.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=\w+&)?id=)([\w-]{20,})/))) return 'https://drive.google.com/file/d/' + m[1] + '/preview?';
     if ((m = u.match(/wistia\.(?:com|net)\/(?:medias|embed\/iframe)\/([a-z0-9]+)/i))) return 'https://fast.wistia.net/embed/iframe/' + m[1] + '?';
     return '';
   }

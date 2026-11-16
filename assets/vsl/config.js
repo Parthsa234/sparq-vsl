@@ -4,9 +4,9 @@
    in the static copy in vsl.html (search the page for "₹").
    ===================================================================== */
 window.SPARQ_VSL = {
-  // The ~6-minute VSL: Vimeo, YouTube, Loom, Wistia link or an .mp4. Empty = thumbnail placeholder.
+  // The ~6-minute VSL: Vimeo, YouTube, Loom, Wistia, Google Drive link or an .mp4. Empty = thumbnail placeholder.
   // [NEEDS REAL VIDEO] If the full VSL isn't recorded, use a 60–90 sec Loom of Nish for now.
-  videoUrl: '',
+  videoUrl: 'https://drive.google.com/file/d/1I33eMbixSls0NF1EcQWjaRs6qYSQ0C-u/view',
   // Thumbnail: Nish's face looking at camera + "How we put qualified calls on your calendar".
   videoPoster: '',
   videoTitle: 'How we put qualified calls on your calendar',

@@ -37,7 +37,10 @@ If the pilot doesn't produce a single SQL, we pay ₹10,000. After the pilot: �
 ₹8,000–40,000 per qualified call, most agencies land around ₹3,00,000 a month. Infrastructure at cost.
 
 ## Still open before running ads
-- `videoUrl` [NEEDS REAL VIDEO]: until set, the hero shows a Nish thumbnail with the title (no play button).
+- `videoUrl` is a Google Drive link. The file must stay shared as "Anyone with the link · Viewer" or the
+  player shows a sign-in box. Drive's player has no autoplay or progress events, so only VideoPlay is tracked
+  (not 50% / past-pricing), and heavily viewed Drive files can hit Google's playback quota. For paid traffic,
+  moving the same file to Vimeo, Wistia or an unlisted YouTube link fixes all three; just change `videoUrl`.
 - [CONFIRM] revenue bar (₹40L) and retainer (₹2,00,000): change in the static copy and the SPARQ_VSL config.
 - [CONFIRM] lock-in FAQ: write the answer in `faq`; the question stays hidden while the answer is empty.
 - [NEEDS REAL QUOTES] `testimonials`: block stays hidden until real, approved quotes are added.
