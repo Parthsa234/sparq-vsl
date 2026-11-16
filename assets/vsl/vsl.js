@@ -273,9 +273,19 @@
       if (!src) frame.innerHTML = '<div class="vsl-ph"><b>Unsupported video URL</b><small>Use Vimeo, YouTube, Loom, Wistia or .mp4</small></div>';
       else if (!C.videoPoster) { load(false); w.addEventListener('blur', function () { if (d.activeElement && d.activeElement.tagName === 'IFRAME' && frame.contains(d.activeElement)) track('VideoPlay'); }); }
       else {
-        frame.innerHTML = '<img class="vsl-poster" src="' + esc(C.videoPoster) + '" alt="" width="1280" height="720" fetchpriority="high">' +
+        // 'youtube' poster = the thumbnail set in YouTube Studio. It already carries its own text, so no title overlay.
+        var ytId = (url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/) || [])[1];
+        var ytPoster = C.videoPoster === 'youtube' && ytId;
+        var posterSrc = ytPoster ? 'https://i.ytimg.com/vi/' + ytId + '/maxresdefault.jpg' : C.videoPoster;
+        frame.innerHTML = '<img class="vsl-poster' + (ytPoster ? ' yt' : '') + '" src="' + esc(posterSrc) + '" alt="" width="1280" height="720" fetchpriority="high">' +
           '<button class="vsl-play" type="button" aria-label="Play the video: ' + esc(C.videoTitle || 'Sparq Labs') + '"><span>' + PLAY + '</span></button>' +
-          '<div class="vsl-poster-t" aria-hidden="true"><b>' + esc(C.videoTitle || '') + '</b><small>Watch first · ~6 min · Nishkarsh Agarwal</small></div>';
+          (ytPoster ? '' : '<div class="vsl-poster-t" aria-hidden="true"><b>' + esc(C.videoTitle || '') + '</b><small>Watch first · ~6 min · Nishkarsh Agarwal</small></div>');
+        if (ytPoster) {
+          // YouTube returns a 120×90 grey placeholder (not an error) when no max-res thumbnail exists.
+          var pimg = frame.querySelector('.vsl-poster'), swap = function () { pimg.src = 'https://i.ytimg.com/vi/' + ytId + '/hqdefault.jpg'; };
+          pimg.addEventListener('load', function () { if (pimg.naturalWidth <= 120 && pimg.src.indexOf('maxres') > -1) swap(); });
+          pimg.addEventListener('error', function () { if (pimg.src.indexOf('maxres') > -1) swap(); });
+        }
         frame.querySelector('.vsl-play').addEventListener('click', function () { track('VideoPlay'); load(true); });
       }
     }
