@@ -26,11 +26,27 @@ Standalone instead: Vercel → Add New Project → Framework preset **Other**, n
 CSS/JS under /assets/vsl are cached by browsers for 7 days. After editing vsl.css, vsl.js or config.js,
 bump the ?v= number on their links in vsl.html, booked.html and not-a-fit.html.
 
-## Page structure (design brief v1, 16 Nov 2026)
-S1 nav · S2 hero + VSL · S3 results (only proof section) · S4 pain · S5 how it works · S6 offer + pricing ·
-S7 fit / not a fit · S8 team · S9 FAQ · S10 book + footer (`#book`, the only calendar).
-Every button says **Book your pilot call** and scrolls to `#book`. On mobile (<900px) there is no Cal.com
-embed; an **Open the calendar** button opens the booking page in a new tab.
+## Page structure (v5)
+S1 nav (Call button + "Book your pilot call") · S2 hero: headline, VSL, **Contact-us application** (#apply) ·
+S3 client ticker ("Trusted by 50+") · S5 how it works · S6 offer + pricing · S7 fit · S8 team ·
+S9 booking (#book, Cal.com) · S10 FAQ · footer. Section-end CTAs after S5–S8; floating Call / WhatsApp buttons.
+Removed on request: testimonials, the referrals section, the 14-day pilot-plan panel.
+All CTAs go to #apply. On phones there is no Cal.com embed: a prefilled "Open Nish's calendar" button instead.
+
+## Application → booking (assets/vsl/apply.js)
+- Questions, options and not-a-fit routing: `application` in config.js, copied from design brief v1, Part E.
+  Replace them there if the other VSL uses a different questionnaire.
+- Qualified → Nish's Cal.com event inline (desktop) / booking page (mobile), prefilled with name, email and
+  the answers in the booking notes, plus UTMs. Booking → /booked. Disqualified → /not-a-fit.
+- Answers stay in memory only. Set `application.endpoint` to a webhook URL (Zapier/Make/n8n) to also receive
+  every application, including not-a-fit leads for the nurture list. Empty = answers only reach Cal.com.
+- The Cal.com embed needs no API key. Never put a Cal.com API key in this repo or in client-side code.
+
+## Tracking
+Meta Pixel 30046987718237213: base code + PageView in each page's <head>, noscript after <body>.
+vsl.js events (Pixel name in brackets): ApplicationStarted [custom], ApplicationCompleted [custom, qualified
+true/false] + Lead [qualified only], ContactClick [Contact], BookingStarted [custom], Schedule [Schedule],
+Video50 [ViewContent]. No personal data is sent to the Pixel or dataLayer.
 
 ## Offer (brief Part A) — keep ads, video captions, page and Cal.com form identical
 For AEO, GEO, content, social media and PR agencies doing ₹40 lakh a month or more. 14-day pilot, no retainer.
@@ -50,7 +66,7 @@ If the pilot doesn't produce a single SQL, we pay ₹10,000. After the pilot: �
   success redirect to https://sparq-vsl-three.vercel.app/booked (this also tracks bookings made on mobile).
 - The stack marquee (How it works) was added on request; the brief suggested cutting it. Remove the
   .stack-band block in vsl.html to drop it. Product mock-ups (draft email, reply board) are labelled Example.
-- `tracking.gtmId` / `tracking.metaPixelId`: Sparq Labs IDs only. Events: PageView, VideoPlay, ViewContent at 50%
+- `tracking.gtmId`: Sparq Labs GTM ID only (empty). If GTM is added, don't add the Pixel inside GTM too. Events: PageView, VideoPlay, ViewContent at 50%
   of the video and a past-pricing (~4:00) milestone (both for .mp4 videos), CtaClick, BookingLinkClick,
   Schedule (once per session on a confirmed Cal.com booking). UTMs are passed through to Cal.com.
 - Add `?debug=1` to the URL to log tracking events in the console.
