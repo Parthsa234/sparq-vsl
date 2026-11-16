@@ -16,7 +16,7 @@ window.SPARQ_VSL = {
   tracking: {
     // Sparq Labs IDs only. Do NOT reuse GTME.School's GTM-NPFX54H8 or Pixel 3411910105669587.
     gtmId: '',
-    metaPixelId: '',
+    metaPixelId: '30046987718237213', // "SparqLab /VSL MeetingBook", act_1989004274952270 (FTEA Global LeadGen) — confirmed 2026-11-17
     pricingSecond: 240      // "watched past the pricing part" milestone (~4:00)
   },
 
