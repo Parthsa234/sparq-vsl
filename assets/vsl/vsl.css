@@ -454,6 +454,7 @@ section[id]{scroll-margin-top:84px}
 
 /* step 4 · kanban board */
 .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:14px;background:#FBFBFA}
+@media(max-width:560px){.cols{grid-template-columns:1fr;gap:8px}}
 .col{display:grid;gap:8px;align-content:start;min-width:0}
 .col-h{display:flex;align-items:center;gap:6px;font:600 12px var(--f-body);color:var(--ink-2);padding:2px 2px 4px}
 .col-h i{width:8px;height:8px;border-radius:50%}
