@@ -781,9 +781,10 @@ html,body{overflow-x:clip}
    white box under 899px, so the embed is hidden there and the "Open the calendar" button
    shows instead. */
 .inline-book{margin-top:28px}
-.inline-book-h{font:600 15px/1.4 var(--f-display);letter-spacing:-.01em;margin:0 0 10px;padding:8px 4px;color:var(--on-night)}
+.inline-book-h{font:600 15px/1.4 var(--f-display);letter-spacing:-.01em;margin:0 0 10px;padding:24px 4px;color:var(--on-night)}
 .inline-book-sec .wrap{max-width:720px}
 .inline-book-sec .cal-mobile-btn,.inline-book .cal-mobile-btn{width:100%;margin-top:8px}
 @media(min-width:900px){.inline-book-sec .cal-mobile-btn,.inline-book .cal-mobile-btn{display:none}}
 @media(max-width:899px){.inline-book-sec .cal-shell,.inline-book .cal-shell{display:none}}
+
 
