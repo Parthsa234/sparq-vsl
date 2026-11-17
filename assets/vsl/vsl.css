@@ -468,6 +468,8 @@ section[id]{scroll-margin-top:84px}
 
 /* stack marquee */
 .stack-band{position:relative;z-index:1;margin-top:72px}
+#engine{padding-bottom:32px}
+#book-mid{padding-top:32px}
 .stack-band .mono-cap{color:var(--on-night-3)}
 .tools{margin-top:12px}
 .tools .marq-track{animation-duration:55s}
