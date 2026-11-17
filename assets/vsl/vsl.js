@@ -315,7 +315,7 @@
     loadCal();
     el.dataset.mounted = '1'; el.innerHTML = '';
     var ns = el.getAttribute('data-ns') || ('sparq-' + el.id);
-    w.Cal('init', ns, { origin: 'https://cal.com' });
+    w.Cal('init', ns, { origin: 'https://app.cal.com' });
     w.Cal.ns[ns]('inline', { elementOrSelector: '#' + el.id, calLink: link, config: Object.assign({ layout: 'month_view' }, attribution(), prefill || {}) });
     w.Cal.ns[ns]('ui', { hideEventTypeDetails: false, layout: 'month_view', cssVarsPerTheme: { light: { 'cal-brand': '#2E77FC' }, dark: { 'cal-brand': '#2E77FC' } } });
     // One Schedule (BookingCompleted) conversion per session, whichever calendar the visitor books in.
