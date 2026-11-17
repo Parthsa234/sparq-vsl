@@ -319,7 +319,7 @@
     w.Cal.ns[ns]('inline', { elementOrSelector: '#' + el.id, calLink: link, config: Object.assign({ layout: 'month_view' }, attribution(), prefill || {}) });
     w.Cal.ns[ns]('ui', { hideEventTypeDetails: false, layout: 'month_view', cssVarsPerTheme: { light: { 'cal-brand': '#2E77FC' }, dark: { 'cal-brand': '#2E77FC' } } });
     // One Schedule (BookingCompleted) conversion per session, whichever calendar the visitor books in.
-    w.Cal.ns[ns]('on', { action: 'bookingSuccessful', callback: function () { track('Schedule', { embed: ns }, { persist: true }); if (onBooked) onBooked(); } });
+    w.Cal.ns[ns]('on', { action: 'bookingSuccessful', callback: function () { track('Schedule', { embed: ns }, { persist: true }); if (onBooked) onBooked(); setTimeout(function () { w.location.href = '/booked'; }, 700); } });
     w.Cal.ns[ns]('on', { action: 'linkFailed', callback: function () {
       el.innerHTML = '<div class="cal-loading">The calendar didn\'t load. <a href="' + esc(calUrl(prefill)) + '" target="_blank" rel="noopener">Open the booking page →</a></div>';
     } });
