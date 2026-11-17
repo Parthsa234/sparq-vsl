@@ -753,3 +753,22 @@ html,body{overflow-x:clip}
 .clients-sub{color:var(--ink-2)}
 .fab-wa{background:#127C40}
 .vsl-poster.yt{object-position:50% 50%}
+
+
+
+/* footer: about + founders + certifications, above the slim copyright strip */
+.site-foot-rich{background:var(--night)}
+.foot-grid{display:grid;gap:40px;padding:56px 0 40px;grid-template-columns:1.3fr 1fr 1.3fr;max-width:1120px;margin:0 auto}
+@media(max-width:899px){.foot-grid{grid-template-columns:1fr;gap:32px;padding:40px 0 32px}}
+.foot-col strong{display:block;font:600 13px var(--f-mono);text-transform:uppercase;letter-spacing:.06em;color:#fff;margin-bottom:14px}
+.foot-about p{font-size:14.5px;line-height:1.6;color:var(--on-night-3);margin:0 0 16px}
+.foot-social{display:flex;gap:12px}
+.foot-social a{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.08);color:#fff;transition:background .2s}
+.foot-social a:hover{background:rgba(255,255,255,.18)}
+.foot-social svg{width:17px;height:17px}
+.foot-founders{display:flex;flex-direction:column;gap:10px}
+.foot-founders a{color:#fff;font-size:14.5px;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:6px}
+.foot-founders a span{color:var(--blue-2);font-weight:500;font-size:13px}
+.foot-founders a:hover span{text-decoration:underline}
+.foot-badges ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.foot-badges li{font-size:11.5px;padding:6px 12px;border:1px solid rgba(255,255,255,.18);border-radius:999px;color:var(--on-night-3);white-space:nowrap}
