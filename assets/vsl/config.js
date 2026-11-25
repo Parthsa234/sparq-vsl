@@ -15,7 +15,7 @@ window.SPARQ_VSL = {
   // 'https://hmewpj1i9c70uov4.public.blob.vercel-storage.com/sparq-vsl-v3.mp4' with poster '/assets/vsl/poster.jpg'.
   videoTitle: 'How we put qualified calls on your calendar',
 
-  bookingLink: 'shrinish/30mins',   // Cal.com event. Qualifying questions (brief Part E) are set up inside Cal.com.
+  bookingLink: 'shrinishkarsh/sparq-labs-14-day-outbound-pilot-call',   // Cal.com event "Sparq Labs 14-day outbound pilot call". Every calendar and booking link on the 3 pages uses this.
 
   tracking: {
     // Sparq Labs IDs only. Do NOT reuse GTME.School's GTM-NPFX54H8 or Pixel 3411910105669587.
