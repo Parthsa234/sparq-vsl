@@ -308,6 +308,9 @@
       if (ar[0] === L) { var api = function () { p(api, arguments); }; var ns = ar[1]; api.q = api.q || [];
         if (typeof ns === 'string') { cal.ns[ns] = cal.ns[ns] || api; p(cal.ns[ns], ar); p(cal, ['initNamespace', ns]); } else p(cal, ar); return; }
       p(cal, ar); }; })(w, 'https://app.cal.com/embed/embed.js', 'init');
+    // As in Cal.com's embed code for this event: pass the page's query string (UTMs, fbclid) through to the booking.
+    w.Cal.config = w.Cal.config || {};
+    w.Cal.config.forwardQueryParams = true;
   }
   // Mounts Nish's event inline. `prefill` (name, email, notes, ...) is passed to Cal.com as booking-form values.
   function mountCal(el, prefill, onBooked) {
@@ -316,7 +319,7 @@
     el.dataset.mounted = '1'; el.innerHTML = '';
     var ns = el.getAttribute('data-ns') || ('sparq-' + el.id);
     w.Cal('init', ns, { origin: 'https://app.cal.com' });
-    w.Cal.ns[ns]('inline', { elementOrSelector: '#' + el.id, calLink: link, config: Object.assign({ layout: 'month_view' }, attribution(), prefill || {}) });
+    w.Cal.ns[ns]('inline', { elementOrSelector: '#' + el.id, calLink: link, config: Object.assign({ layout: 'month_view', useSlotsViewOnSmallScreen: 'true' }, attribution(), prefill || {}) });
     w.Cal.ns[ns]('ui', { hideEventTypeDetails: false, layout: 'month_view', cssVarsPerTheme: { light: { 'cal-brand': '#2E77FC' }, dark: { 'cal-brand': '#2E77FC' } } });
     // One Schedule (BookingCompleted) conversion per session, whichever calendar the visitor books in.
     w.Cal.ns[ns]('on', { action: 'bookingSuccessful', callback: function () { track('Schedule', { embed: ns }, { persist: true }); if (onBooked) onBooked(); setTimeout(function () { w.location.href = '/booked'; }, 700); } });
