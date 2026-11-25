@@ -1,6 +1,6 @@
 /* Sparq Labs VSL — Cal.com -> Meta Conversions API bridge.
    Registered as a BOOKING_CREATED webhook on the "GTM Discovery w/ Nishkarsh" event
-   (cal.com/shrinishkarsh/sparq-labs-14-day-outbound-pilot-call). Sends a server-side "Schedule" event to Meta as a durable
+   (cal.com/shrinish/30mins). Sends a server-side "Schedule" event to Meta as a durable
    backup to the client-side Pixel Schedule event already fired in assets/vsl/vsl.js —
    the two use the SAME event_id (derived from the booking) so Meta dedupes them into one
    conversion, not two. Needs CAL_WEBHOOK_SECRET and META_PIXEL_ACCESS_TOKEN set as
