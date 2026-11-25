@@ -84,7 +84,7 @@ window.SPARQ_VSL = {
 
   // Client marquee (getsparq.ai style). From the SparqLabs 2026 case studies; own brands
   // (SparqLabs, GTME.School), the Bazooka vendor case and Howdy GTM ("details to confirm") left out.
-  clients: ['MZ Media', 'OkayDone', 'WiseMango', 'RouteElite', 'HappyFolks', 'Kontent Media', 'FilterKing', 'Zaap.ai',
+  clients: ['MZ Media', 'WiseMango', 'RouteElite', 'HappyFolks', 'Kontent Media', 'FilterKing', 'Zaap.ai',
             'LetsUnbound', 'Sales Vantage', 'Think Macro', 'Sufix Tech', 'Workscape Designs', 'byeHotelier', 'tagthose', 'Go Market Labs'],
   // Second, outlined row: as published on getsparq.ai.
   meetingsWith: ['CEQUENS', 'weteams', 'FIFA', 'yrefy'],
